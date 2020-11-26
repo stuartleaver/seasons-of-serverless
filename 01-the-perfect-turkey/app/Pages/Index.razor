@@ -4,7 +4,7 @@
 
 <section class="jumbotron text-center">
     <div class="container">
-        <img src="images/turkey-icon-header.png" alt="...">
+        <img src="images/turkey-icon-header.png" alt="Turkey">
 
         <h1 class="jumbotron-heading">The Perfect Turkey</h1>
 
@@ -74,9 +74,9 @@
             var response = await Http.PostAsJsonAsync("/api/perfectholidayturkey", query);
 
             recipeItems = await response.Content.ReadFromJsonAsync<List<RecipeItem>>();
-            
+
             recipeItems.OrderBy(x => x.Order);
-            
+
             StateHasChanged();
         }
         catch {
