@@ -7,6 +7,29 @@ The solution contains a Blazor frontend to allow users to input the weight of th
 
 Both the front and backend are then hosted in an Azure Static Web app.
 
+## Try it yourself
+You can try out a working version deployed to an Azure Static Web App [here](https://www.theperfectturkey.cloud).
+
+![theperfectturkey](assets/theperfectturkey.png)
+
+You can also run the Azure Function on it's own. Just start running it in your favourite IDE, or deploy to an Azure Function app. The function works with both a query string or body to pass the turkey weight. With the `POST` verb of course. For example:
+
+`http://localhost:7071/api/perfectholidayturkey?turkeyWeight=10`
+
+![postman-query-string](assets/postman-query-string.png)
+
+Or
+
+`http://localhost:7071/api/perfectholidayturkey` with a body of:
+
+```json
+{
+  turkeyWeight: 10
+}
+```
+
+![postman-body](assets/postman-body.png)
+
 # The Challenge
 
 ## Your Chefs: Jen Looper, Cloud Advocate (Microsoft) and Darren Butler and Eric Yu, Microsoft Student Ambassadors
