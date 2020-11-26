@@ -2,7 +2,7 @@
 
 # Welcome to the Seasons of Serverless!
 
-In this repository, you will find my solutions to Microsofts Season of Serverless.
+In this repository, you will find my solutions to Microsoft's Seasons of Serverless.
 
 # What is Seasons of Serverless
 
@@ -13,3 +13,7 @@ Every year, we all look forward to our annual holiday potluck. From jollof rice 
 Of course, we know that's not possible this year, so we've come up with an alternative: a virtual code challenge potluck! Each week, someone in our community is going to post a unique code challenge exploring a recipe and a food for all of our friends to solve. It may not be the same as breaking bread in-person or smelling and tasting your flavorful creations, but hopefully these delectable brain-teasers can still give us a taste of each other's traditions.
 
 Grosses bises, Dominique et Simone
+
+# Solutions
+* [Challenge One - The Perfect Turkey](https://github.com/stuartleaver/seasons-of-serverless/tree/main/01-the-perfect-turkey)
+  * See the solution in action - [The Perfect Turkey](https://www.theperfectturkey.cloud)
