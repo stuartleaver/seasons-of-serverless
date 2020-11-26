@@ -1,0 +1,86 @@
+﻿@page "/"
+@using Entities
+@inject HttpClient Http
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <img src="images/turkey-icon-header.png" alt="...">
+
+        <h1 class="jumbotron-heading">The Perfect Turkey</h1>
+
+        <p class="lead text-muted">In North America, many families believe that the holidays are simply not complete
+            without a proper turkey on the table. Juicy meat, crispy skin, mouth-watering gravy: a good turkey has
+            it
+            all! The only problem is these birds can be hard to cook so they don't turn out dry and tough. The
+            secret? A
+            proper brine!</p>
+        <p class="lead text-muted">Enter your turkeys weigh in lbs below for that perfect holiday turkey.</p>
+
+        <p>
+            <EditForm Model="@turkeyModel" OnValidSubmit="@HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <div class="form-group">
+                    <InputText id="weight" @bind-Value="turkeyModel.Weight" class="form-control"
+                        placeholder="Enter your turkeys weight in lbs" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Calculate</button>
+            </EditForm>
+        </p>
+        <p class="lead text-muted">Brought to you by <a
+                href="https://twitter.com/search?q=%23SeasonsOfServerless">#SeasonsOfServerless</a>,
+            with a seasoning of <a href="https://azure.microsoft.com/en-gb/services/functions">Azure Functions</a>,
+            <a href="https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor">Blazor</a> and <a
+                href="https://azure.microsoft.com/en-gb/services/app-service/static/">Static Web Apps</a>
+        </p>
+        <p class="lead text-muted">View the code on <a href="https://github.com/stuartleaver/seasons-of-serverless/tree/main/01-the-perfect-turkey">GitHub</a></p>
+    </div>
+</section>
+
+<div class="recipe text-center">
+    @if (recipeItems != null)
+    {
+        <h2>Here is your perfect turkey recipe for your turkey weighing @turkeyModel.Weight lbs</h2>
+        <br />
+        @foreach (var recipeItem in recipeItems)
+        {
+            <p>@recipeItem.Name (@recipeItem.Unit) - @recipeItem.Amount</p>
+        }
+    }
+    else if (loadFailed)
+    {
+        <div class="alert alert-danger" role="alert">
+            An error has occurred, please try again.
+        </div>
+    }
+</div>
+
+@code {
+    private TurkeyModel turkeyModel = new TurkeyModel();
+
+    private List<RecipeItem> recipeItems;
+
+    private bool loadFailed;
+
+    private async Task HandleValidSubmit()
+    {
+        var query = new { turkeyWeight = turkeyModel.Weight };
+
+        try
+        {
+            loadFailed = false;
+
+            var response = await Http.PostAsJsonAsync("/api/perfectholidayturkey", query);
+
+            recipeItems = await response.Content.ReadFromJsonAsync<List<RecipeItem>>();
+            
+            recipeItems.OrderBy(x => x.Order);
+            
+            StateHasChanged();
+        }
+        catch {
+            loadFailed = true;
+        }
+    }
+}
