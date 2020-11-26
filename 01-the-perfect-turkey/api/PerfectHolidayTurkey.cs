@@ -27,12 +27,12 @@ namespace PerfectHolidayTurkey.Api
 
             log.LogInformation($"Turkey weight (lbs): {turkeyWeight}");
 
-            var brineInstructions = new Recipe
+            var thePerfectTurkey = new ThePerfectTurkey
             {
                 TurkeyWeight = Convert.ToDecimal(turkeyWeight)
             };
 
-            return new OkObjectResult(JsonConvert.SerializeObject(brineInstructions));
+            return new OkObjectResult(JsonConvert.SerializeObject(thePerfectTurkey.Recipe()));
         }
     }
 }
