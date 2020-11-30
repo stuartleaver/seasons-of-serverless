@@ -4,6 +4,53 @@
 
 # Solution
 
+## Custom Vision
+
+### Create Custom Vision resources
+
+To get started, you will need to create a Custom Vision resource. You can do so with either [this link](https://portal.azure.com/?microsoft_azure_marketplace_ItemHideKey=microsoft_azure_cognitiveservices_customvision#create/Microsoft.CognitiveServicesCustomVision), or you can use the Azure CLI:
+
+```
+az group create --name lovely-ladoos --location uksouth
+```
+
+```
+az cognitiveservices account create --name lovelyladoos-prediction --resource-group lovely-ladoos --kind CustomVision.Prediction --sku F0 --location uksouth --yes
+az cognitiveservices account create --name lovelyladoos-training --resource-group lovely-ladoos --kind CustomVision.Training --sku F0 --location uksouth --yes
+```
+
+### Create a new project
+In your web browser, navigate to the [Custom Vision web page](https://customvision.ai/) and select Sign in. Sign in with the same account you used to sign into the Azure portal.
+1. To create your first project, select **New Project**. The Create new project dialog box will appear.
+1. Enter the following information
+  * **Name** - 'Lovely Ladoos'
+  * **Description** - 'Project to classify images for the lovely ladies challenge as part of #SeasonsOfServerless'
+  * **Resource** - If not already selected, your newly created lovelyladoos-training resource.
+  * **Project Types** - Classification
+  * **Classification Types** - Multilabel
+  * **Domains** - Food
+
+### Upload and tag images
+1. Click on `Add Images` and select the images from the `ladoo-dataset` folder.
+1. in the **My Tags** field, add `ladoo`.
+1. Upload the files.
+
+### Train the classifier
+
+To train the classifier, select the Train button. The classifier uses all of the current images to create a model that identifies the visual qualities of each tag.
+
+This should only take a few minutes.
+
+You should then have something that looks a bit like this:
+
+![created-project](assets/created-project.png)
+
+## Links
+
+[Build a classifier with the Custom Vision website](https://docs.microsoft.com/en-gb/azure/cognitive-services/custom-vision-service/getting-started-build-a-classifier)
+
+[Create an image classification project with the Custom Vision client library](https://docs.microsoft.com/en-us/azure/cognitive-services/custom-vision-service/quickstarts/image-classification?tabs=visual-studio&pivots=programming-language-csharp)
+
 # The Challenge
 
 ## Your Chefs: Jasmine Greenaway, Cloud Advocate (Microsoft) with Soumya Narapaju and Aditya Raman, Microsoft Student Ambassadors
