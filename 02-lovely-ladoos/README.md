@@ -27,7 +27,7 @@ In your web browser, navigate to the [Custom Vision web page](https://customvisi
   * **Description** - 'Project to classify images for the lovely ladies challenge as part of #SeasonsOfServerless'
   * **Resource** - If not already selected, your newly created lovelyladoos-training resource.
   * **Project Types** - Classification
-  * **Classification Types** - Multilabel
+  * **Classification Types** - Multiclass
   * **Domains** - Food
 
 ### Upload and tag images
@@ -37,11 +37,26 @@ In your web browser, navigate to the [Custom Vision web page](https://customvisi
 
 ### Train the classifier
 
-To train the classifier, select the Train button. The classifier uses all of the current images to create a model that identifies the visual qualities of each tag.
+To train the classifier, select the Train button. The classifier uses all of the current images to create a model that identifies the visual qualities of each tag. This should only take a few minutes.
 
-This should only take a few minutes.
+Once trained, the Custom Vision portal will show the results, and they will look a bit like this:
 
-You should then have something that looks a bit like this:
+![training-iteration-one](assets/training-iteration-one.png)
+
+All looks good with 100%? That is not the case. The model has only been trained with one tag, and so everything will be a ladoo at the moment. The model therefore needs training with additional images that have different tags. So upload some other images of sweets, or anything you like, but make sure to end up with about three tags. Also, make sure the dataset's for each tag contain around the same number of images, otherwise you will build bias into the model.
+
+Here is the training result of iteration two, after adding additional tags:
+
+![training-iteration-four](assets/training-iteration-four.png)
+
+If you want to spend more time improving the prediction, take a look at [How to improve your classifier](https://docs.microsoft.com/en-gb/azure/cognitive-services/custom-vision-service/getting-started-improving-your-classifier).
+
+### Publish your trained iteration
+Once happy, it is time to publish the trained iteration you are happy with, so that images can be submitted to the prediction API. To do so, just select the iteration you wish to publish in the **Performance** tab, and click **Publish**. This will then make the **Publish URL** link active to get your prediction URL's and keys.
+
+### Finished project
+
+You should then have something that looks a bit like this on your main homepage:
 
 ![created-project](assets/created-project.png)
 
