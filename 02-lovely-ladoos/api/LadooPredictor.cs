@@ -27,18 +27,30 @@ namespace LadooPredictor.Api
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             imageUrl = imageUrl ?? data?.imageUrl;
 
+            if (!IsValidImageExtension(imageUrl))
+            {
+                return new BadRequestObjectResult("Please supply an image URL in the imageUrl query parameter. Allowed file formats are either jpg, jpeg, png or bmp");
+            }
+
             var endpoint = Environment.GetEnvironmentVariable("CUSTOM_VISION_ENDPOINT");
             var predictionKey = Environment.GetEnvironmentVariable("CUSTOM_VISION_PREDICTION_KEY");
             var projectId = Guid.Parse(Environment.GetEnvironmentVariable("CUSTOM_VISION_PROJECT_ID"));
             var publishedName = Environment.GetEnvironmentVariable("CUSTOM_VISION_PUBLISHED_NAME");
 
-            var predictionApi = AuthenticatePrediction(endpoint, predictionKey);
+            try
+            {
+                var predictionApi = AuthenticatePrediction(endpoint, predictionKey);
 
-            var prediction = await predictionApi.ClassifyImageUrlAsync(projectId, publishedName, new ImageUrl(imageUrl), null);
+                var prediction = await predictionApi.ClassifyImageUrlAsync(projectId, publishedName, new ImageUrl(imageUrl), null);
 
-            var result = JsonConvert.SerializeObject(prediction.Predictions);
+                var result = JsonConvert.SerializeObject(prediction.Predictions);
 
-            return new OkObjectResult(result);
+                return new OkObjectResult(result);
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult($"An error occured - {ex.Message}");
+            }
         }
 
         private static CustomVisionPredictionClient AuthenticatePrediction(string endpoint, string predictionKey)
@@ -49,6 +61,16 @@ namespace LadooPredictor.Api
                 Endpoint = endpoint
             };
             return predictionApi;
+        }
+
+        private static bool IsValidImageExtension(string imageUrl)
+        {
+            return !string.IsNullOrEmpty(imageUrl) && (
+                imageUrl.EndsWith(".jpg")
+                || imageUrl.EndsWith("jpeg")
+                || imageUrl.EndsWith("png")
+                || imageUrl.EndsWith("gif")
+            );
         }
     }
 }
