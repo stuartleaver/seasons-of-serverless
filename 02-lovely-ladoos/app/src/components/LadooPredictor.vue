@@ -50,7 +50,7 @@
       </p>
       <input
         class="col-6"
-        v-model="imageLink"
+        v-model="imageUrl"
         placeholder="Enter image url..."
       />
       <br />
@@ -79,22 +79,21 @@
         <div class="col"></div>
         <div class="col-12" v-if="showResults">
           <b-card
-            :img-src="imageLink"
+            :img-src="imageUrl"
             img-alt="Card image"
             img-left
-            class="mb-3"
+            img-width="600px"
             title="Ladoo prediction results"
             sub-title="Here are your predictions on if your image is of ladoo's"
           >
             <b-card-text>
               <div
-                class="columns medium-4"
-                v-for="result in data"
-                :key="result"
+                v-for="prediction in predictionResults"
+                :key="prediction.tagName"
               >
                 <p>
-                  {{ result.tagName | titleize }} -
-                  {{ parseFloat(result.probability) | percentage }}
+                  {{ prediction.tagName | titleize }} -
+                  {{ parseFloat(prediction.probability) | percentage }}
                 </p>
               </div>
             </b-card-text>
@@ -113,11 +112,11 @@ export default {
   name: "LadooPredictor",
   data() {
     return {
-      data: {},
+      predictionResults: {},
     };
   },
   props: {
-    imageLink: String,
+    imageUrl: String,
     showLoading: Boolean,
     showError: Boolean,
     errorMessage: String,
@@ -131,10 +130,10 @@ export default {
 
       axios
         .get(
-          `http://localhost:7071/api/ladoopredictor?imageUrl=${this.imageLink}`
+          `http://localhost:7071/api/ladoopredictor?imageUrl=${this.imageUrl}`
         )
         .then((response) => {
-          this.data = response.data;
+          this.predictionResults = response.data;
 
           this.showResults = true;
           this.showLoading = false;
@@ -162,10 +161,10 @@ export default {
             this.errorMessage = error.message;
           }
         });
-    }
+    },
   },
   watch: {
-    imageLink: function () {
+    imageUrl: function () {
       this.onChange();
     },
   },
