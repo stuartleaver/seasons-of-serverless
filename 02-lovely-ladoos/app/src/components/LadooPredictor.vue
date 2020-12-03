@@ -130,7 +130,7 @@ export default {
 
       axios
         .get(
-          `http://localhost:7071/api/ladoopredictor?imageUrl=${this.imageUrl}`
+          `/api/ladoopredictor?imageUrl=${this.imageUrl}`
         )
         .then((response) => {
           this.predictionResults = response.data;
