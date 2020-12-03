@@ -2,11 +2,40 @@
 
 # Challenge 2: Lovely Ladoos
 
-# Solution
+## Solution
+Full details on how the Custom Vision resources were created and setup, along with details on the Azure Function are below.
 
-## Custom Vision
+The solution contains a Vue.js frontend to allow users to input the image URL of their ladoo's, and an Azure Function as the backend to make the call to the Custom Vision predictor to analyse the image.
 
-### Create Custom Vision resources
+Both the front and backend are then hosted in an Azure Static Web app.
+
+You can try out a working version deployed to an Azure Static Web App [here](https://http://www.lovelyladoos.cloud).
+
+![lovelyladoos](assets/lovelyladoos.png)
+
+You can also run the Azure Function on it's own. Just start running it in your favourite IDE, or deploy to an Azure Function app. The function works with both a query string or body to pass the image URL. For example:
+
+`http://localhost:7071/api/LadooPredictor?imageUrl=https://www.ambalafoods.com/images/ladoo_s.png`
+
+![postman-query-string](assets/postman-query-string.png)
+
+Or
+
+`http://localhost:7071/api/LadooPredictor` with a body of:
+
+```json
+{
+    "imageUrl": "https://www.ambalafoods.com/images/ladoo_s.png"
+}
+```
+
+![postman-body](assets/postman-body.png)
+
+## Setup
+
+### Custom Vision
+
+#### Create Custom Vision resources
 
 To get started, you will need to create a Custom Vision resource. You can do so with either [this link](https://portal.azure.com/?microsoft_azure_marketplace_ItemHideKey=microsoft_azure_cognitiveservices_customvision#create/Microsoft.CognitiveServicesCustomVision), or you can use the Azure CLI:
 
@@ -19,7 +48,7 @@ az cognitiveservices account create --name lovelyladoos-prediction --resource-gr
 az cognitiveservices account create --name lovelyladoos-training --resource-group lovely-ladoos --kind CustomVision.Training --sku F0 --location uksouth --yes
 ```
 
-### Create a new project
+#### Create a new project
 In your web browser, navigate to the [Custom Vision web page](https://customvision.ai/) and select Sign in. Sign in with the same account you used to sign into the Azure portal.
 1. To create your first project, select **New Project**. The Create new project dialog box will appear.
 1. Enter the following information
@@ -30,12 +59,12 @@ In your web browser, navigate to the [Custom Vision web page](https://customvisi
   * **Classification Types** - Multiclass
   * **Domains** - Food
 
-### Upload and tag images
+#### Upload and tag images
 1. Click on `Add Images` and select the images from the `ladoo-dataset` folder.
 1. in the **My Tags** field, add `ladoo`.
 1. Upload the files.
 
-### Train the classifier
+#### Train the classifier
 
 To train the classifier, select the Train button. The classifier uses all of the current images to create a model that identifies the visual qualities of each tag. This should only take a few minutes.
 
@@ -51,20 +80,64 @@ Here is the training result of iteration two, after adding additional tags:
 
 If you want to spend more time improving the prediction, take a look at [How to improve your classifier](https://docs.microsoft.com/en-gb/azure/cognitive-services/custom-vision-service/getting-started-improving-your-classifier).
 
-### Publish your trained iteration
+#### Publish your trained iteration
 Once happy, it is time to publish the trained iteration you are happy with, so that images can be submitted to the prediction API. To do so, just select the iteration you wish to publish in the **Performance** tab, and click **Publish**. This will then make the **Publish URL** link active to get your prediction URL's and keys.
 
-### Finished project
+#### Finished project
 
 You should then have something that looks a bit like this on your main homepage:
 
 ![created-project](assets/created-project.png)
 
-## Links
+#### Links
 
 [Build a classifier with the Custom Vision website](https://docs.microsoft.com/en-gb/azure/cognitive-services/custom-vision-service/getting-started-build-a-classifier)
 
 [Create an image classification project with the Custom Vision client library](https://docs.microsoft.com/en-us/azure/cognitive-services/custom-vision-service/quickstarts/image-classification?tabs=visual-studio&pivots=programming-language-csharp)
+
+### Azure Functions
+
+New that the Custom Vision trained iteration has been published, it can be used to predict images. For this an Azure Function can be used. A query string parameter can take the image URL, and then make a call to the Custom Vision project using a `CustomVisionPredictionClient` object.
+
+The Function uses four variables. So the following will need setting up:
+
+```json
+"CUSTOM_VISION_ENDPOINT": "<Your prediction resource endpoint, for example https://uksouth.api.cognitive.microsoft.com/>",
+"CUSTOM_VISION_PREDICTION_KEY": "<Key from the Published URL link of your projects performance page>",
+"CUSTOM_VISION_PROJECT_ID": "<The Id of your project which can be found using the gear icon in the top right of your project>",
+"CUSTOM_VISION_PUBLISHED_NAME": "<Name of the published iteration>"
+```
+
+Once these are in place, creating a `CustomVisionPredictionClient` is very simple:
+
+```csharp
+private static CustomVisionPredictionClient AuthenticatePrediction(string endpoint, string predictionKey)
+{
+    // Create a prediction endpoint, passing in the obtained prediction key
+    CustomVisionPredictionClient predictionApi = new CustomVisionPredictionClient(new Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.ApiKeyServiceClientCredentials(predictionKey))
+    {
+        Endpoint = endpoint
+    };
+    return predictionApi;
+}
+```
+
+Using the `ClassifyImageUrlAsync` will then predict the images
+```csharp
+var predictionApi = AuthenticatePrediction(endpoint, predictionKey);
+
+var prediction = await predictionApi.ClassifyImageUrlAsync(projectId, publishedName, new ImageUrl(imageUrl), null);
+```
+
+All being well, you will get results similiar to:
+
+```json
+"[
+  {"probability":0.986705,"tagId":"a5189b98-6483-42e2-a9c2-1e668fa8323f","tagName":"ladoo","boundingBox":null,"tagType":"Regular"},
+  {"probability":0.00963972,"tagId":"d5135d57-6789-44de-840c-4d69b91bedeb","tagName":"doughnut","boundingBox":null,"tagType":"Regular"},
+  {"probability":0.0036553445,"tagId":"b5f3daad-ae57-4f60-9dd3-bf84958b0ab5","tagName":"strawberries","boundingBox":null,"tagType":"Regular"}
+]"
+```
 
 # The Challenge
 
