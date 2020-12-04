@@ -1,13 +1,19 @@
-name: Azure Static Web Apps CI/CD
+name: Lovely Ladoos CI/CD
 
 on:
   push:
     branches:
       - main
+    paths:
+    - '!/**'
+    - '02-lovely-ladoos/**'
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
+    paths:
+    - '!/**'
+    - '02-lovely-ladoos/**'
 
 jobs:
   build_and_deploy_job:
