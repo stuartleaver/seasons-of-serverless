@@ -14,6 +14,10 @@ Of course, we know that's not possible this year, so we've come up with an alter
 
 Grosses bises, Dominique et Simone
 
+Link to the Microsoft repo containing more information and the challenges - [https://github.com/microsoft/Seasons-of-Serverless](https://github.com/microsoft/Seasons-of-Serverless)
+
 # Solutions
 * [Challenge One - The Perfect Turkey](https://github.com/stuartleaver/seasons-of-serverless/tree/main/01-the-perfect-turkey)
   * See the solution in action - [The Perfect Turkey](https://www.theperfectturkey.cloud)
+* [Challenge Two - Lovely Ladoos](https://github.com/stuartleaver/seasons-of-serverless/tree/main/02-lovely-ladoos)
+    * See the solution in action - [Lovely Ladoos](https://www.lovelyladoos.cloud)

@@ -5,11 +5,11 @@
 ## Solution
 Full details on how the Custom Vision resources were created and setup, along with details on the Azure Function are below.
 
-The solution contains a Vue.js frontend to allow users to input the image URL of their ladoo's, and an Azure Function as the backend to make the call to the Custom Vision predictor to analyse the image.
+The solution contains a Vue.js frontend to allow users to input the image URL of their ladoos, and an Azure Function as the backend to make the call to the Custom Vision predictor to analyse the image.
 
 Both the front and backend are then hosted in an Azure Static Web app.
 
-You can try out a working version deployed to an Azure Static Web App [here](https://http://www.lovelyladoos.cloud).
+You can try out a working version deployed to an Azure Static Web App [here](http://www.lovelyladoos.cloud).
 
 ![lovelyladoos](assets/lovelyladoos.png)
 

@@ -2,7 +2,7 @@
   <div class="">
     <b-jumbotron
       class="ladooHeader"
-      header="Lovely Ladoo's"
+      header="Lovely Ladoos"
       lead="It's Diwali season in India! Diwali is a festival that celebrates the
       victory of light over darkness. Families celebrate with fireworks and
       light up every house in the country with diyas, a type of Indian candles.
@@ -12,7 +12,7 @@
       <br />
       <br />
       <p>
-        Have you made the perfect Ladoo? Have a URL to a photo of your Ladoo's?
+        Have you made the perfect Ladoo? Have a URL to a photo of your Ladoos?
         Enter it below and watch as Azure Functions and Machine Learning work
         their magic to predict if you have made the perfect ladoo.
       </p>
@@ -84,7 +84,7 @@
             img-left
             img-width="600px"
             title="Ladoo prediction results"
-            sub-title="Here are your predictions on if your image is of ladoo's"
+            sub-title="Here are your predictions on if your image is of ladoos"
           >
             <b-card-text>
               <div
