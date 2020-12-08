@@ -25,7 +25,7 @@ export class Recipe {
 
         return {
             weight: this.baseIngredientWeight,
-            feeds: (this.baseIngredientWeight / 0.45) * 4,
+            serves: 4 * multiplyingFactor,
             ingredients: ingredientsArray
         }
     }

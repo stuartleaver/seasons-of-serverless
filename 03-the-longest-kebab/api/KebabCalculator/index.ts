@@ -22,8 +22,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
 };
 
-function isNumeric(num) {
-    return !isNaN(num)
+function isNumeric(baseIngredientWeight) {
+    return !isNaN(baseIngredientWeight)
 }
 
 export default httpTrigger;
