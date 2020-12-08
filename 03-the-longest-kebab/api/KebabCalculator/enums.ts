@@ -1,9 +1,16 @@
-enum Unit {
+enum CookingUnit {
     Kilos = 1,
     Teaspoons,
     Whole
 }
 
+enum LengthUnit {
+    cm = 1,
+    m,
+    km
+}
+
 export {
-    Unit
+    CookingUnit,
+    LengthUnit
 }

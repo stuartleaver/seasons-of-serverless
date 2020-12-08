@@ -1,8 +1,8 @@
-import { Unit } from "./enums"
+import { CookingUnit } from "./enums"
 
 interface IIngredient {
     name: string;
-    unit: Unit;
+    unit: CookingUnit;
     amount: number;
 }
 
