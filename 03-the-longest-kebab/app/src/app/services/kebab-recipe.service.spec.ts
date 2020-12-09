@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { KebabReciptService } from './kebab-recipt.service';
+import { KebabRecipeService } from './kebab-recipe.service';
 
-describe('KebabReciptService', () => {
-  let service: KebabReciptService;
+describe('KebabRecipeService', () => {
+  let service: KebabRecipeService;
   let httpMock: HttpTestingController;
 
   const mockKebabRecipe = JSON.parse('{ "weight": "0.45", "length": 4, "length": { "length": 73.27, "unit": 1 }, "ingredients": [ { "name": "Base", "unit": 1, "amount": "0.45" } ] }');
@@ -13,7 +13,7 @@ describe('KebabReciptService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
     });
-    service = TestBed.inject(KebabReciptService);
+    service = TestBed.inject(KebabRecipeService);
     httpMock = TestBed.inject(HttpTestingController);
   });
 
@@ -21,8 +21,8 @@ describe('KebabReciptService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getKebabRecipt() should return data', () => {
-    service.getKebabRecipt().subscribe((res) => {
+  it('getKebabRecipe() should return data', () => {
+    service.getKebabRecipe(0.45).subscribe((res) => {
       expect(res).toEqual(mockKebabRecipe);
     });
 

@@ -1,1 +1,23 @@
 <p>longest-kebab works!</p>
+
+<form [formGroup]="kebabForm" (ngSubmit)="onSubmit(kebabForm.value)">
+    <div>
+        <label for="name">
+            Base Ingredient Weight
+        </label>
+        <input id="baseIngredientWeight" type="text" formControlName="baseIngredientWeight">
+    </div>
+
+    <button class="button" type="submit">Get recipe</button>
+</form>
+
+<div *ngIf="kebabRecipe">
+    <p>Weight: {{kebabRecipe.weight}}</p>
+    <p>Serves: {{kebabRecipe.serves}}</p>
+    <p>Length: {{kebabRecipe.length.length}} {{lengthUnitLabel.get(kebabRecipe.length.unit)}}</p>
+
+    Ingredients
+    <ul>
+        <li *ngFor="let ingredient of kebabRecipe.ingredients">{{ingredient.name}}: {{ingredient.amount}} {{cookingUnitLabel.get(ingredient.unit)}}</li>
+    </ul>
+</div>
