@@ -13,19 +13,19 @@ export class Recipe {
         let multiplyingFactor: number = this.baseIngredientWeight / 0.45
 
         const ingredientsArray: IIngredient[] = [
-            { name: "Base", unit: CookingUnit.Kilos, amount: this.baseIngredientWeight },
-            { name: "Onion", unit: CookingUnit.Whole, amount: 1 * multiplyingFactor },
-            { name: "Garlic", unit: CookingUnit.Whole, amount: 4 * multiplyingFactor },
-            { name: "Cumin", unit: CookingUnit.Teaspoons, amount: 1.5 * multiplyingFactor },
-            { name: "Sumac", unit: CookingUnit.Teaspoons, amount: 1.5 * multiplyingFactor },
-            { name: "Salt", unit: CookingUnit.Teaspoons, amount: 0.5 * multiplyingFactor },
-            { name: "Black Pepper", unit: CookingUnit.Teaspoons, amount: 0.25 * multiplyingFactor },
-            { name: "Red Pepper Flakes", unit: CookingUnit.Teaspoons, amount: 0.25 * multiplyingFactor },
+            { name: "Base", unit: CookingUnit.Kilos, amount: (this.baseIngredientWeight).toString() },
+            { name: "Onion", unit: CookingUnit.Whole, amount: (1 * multiplyingFactor).toFixed(0) },
+            { name: "Garlic", unit: CookingUnit.Whole, amount: (4 * multiplyingFactor).toFixed(0) },
+            { name: "Cumin", unit: CookingUnit.Teaspoons, amount: (1.5 * multiplyingFactor).toFixed(2) },
+            { name: "Sumac", unit: CookingUnit.Teaspoons, amount: (1.5 * multiplyingFactor).toFixed(2) },
+            { name: "Salt", unit: CookingUnit.Teaspoons, amount: (0.5 * multiplyingFactor).toFixed(2) },
+            { name: "Black Pepper", unit: CookingUnit.Teaspoons, amount: (0.25 * multiplyingFactor).toFixed(2) },
+            { name: "Red Pepper Flakes", unit: CookingUnit.Teaspoons, amount: (0.25 * multiplyingFactor).toFixed(2) },
         ];
 
         return {
             weight: this.baseIngredientWeight,
-            serves: 4 * multiplyingFactor,
+            serves: (4 * multiplyingFactor).toFixed(0),
             length: this.calculateKebabLength(),
             ingredients: ingredientsArray
         }
