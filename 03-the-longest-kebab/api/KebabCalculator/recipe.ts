@@ -14,13 +14,13 @@ export class Recipe {
 
         const ingredientsArray: IIngredient[] = [
             { name: "Base", unit: CookingUnit.Kilos, amount: (this.baseIngredientWeight).toString() },
-            { name: "Onion", unit: CookingUnit.Whole, amount: (1 * multiplyingFactor).toFixed(0) },
-            { name: "Garlic", unit: CookingUnit.Whole, amount: (4 * multiplyingFactor).toFixed(0) },
-            { name: "Cumin", unit: CookingUnit.Teaspoons, amount: (1.5 * multiplyingFactor).toFixed(2) },
-            { name: "Sumac", unit: CookingUnit.Teaspoons, amount: (1.5 * multiplyingFactor).toFixed(2) },
-            { name: "Salt", unit: CookingUnit.Teaspoons, amount: (0.5 * multiplyingFactor).toFixed(2) },
-            { name: "Black Pepper", unit: CookingUnit.Teaspoons, amount: (0.25 * multiplyingFactor).toFixed(2) },
-            { name: "Red Pepper Flakes", unit: CookingUnit.Teaspoons, amount: (0.25 * multiplyingFactor).toFixed(2) },
+            { name: "Onions", unit: CookingUnit.Whole, amount: (1 * multiplyingFactor).toFixed(0) },
+            { name: "Garlic", unit: CookingUnit.Clove, amount: (4 * multiplyingFactor).toFixed(0) },
+            { name: "Cumin", unit: CookingUnit.Teaspoons, amount: (1.5 * multiplyingFactor).toFixed(0) },
+            { name: "Sumac", unit: CookingUnit.Teaspoons, amount: (1.5 * multiplyingFactor).toFixed(0) },
+            { name: "Salt", unit: CookingUnit.Teaspoons, amount: (0.5 * multiplyingFactor).toFixed(0) },
+            { name: "Black Pepper", unit: CookingUnit.Teaspoons, amount: (0.25 * multiplyingFactor).toFixed(0) },
+            { name: "Red Pepper Flakes", unit: CookingUnit.Teaspoons, amount: (0.25 * multiplyingFactor).toFixed(0) },
         ];
 
         return {
