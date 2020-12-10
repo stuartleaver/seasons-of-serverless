@@ -17,7 +17,7 @@ export class KebabRecipeService {
   constructor(private http: HttpClient) { }
 
   getKebabRecipe(baseIngredientWeight: number): Observable<KebabRecipe> {
-    const url = `http://localhost:7071/api/KebabCalculator?baseIngredientWeight=${baseIngredientWeight}`;
+    const url = `/api/KebabCalculator?baseIngredientWeight=${baseIngredientWeight}`;
     return this.http.get<KebabRecipe>(url).pipe(
       tap(_ => this.log(`fetched kebab recipe baseIngredientWeight=${baseIngredientWeight}`)),
       catchError(
