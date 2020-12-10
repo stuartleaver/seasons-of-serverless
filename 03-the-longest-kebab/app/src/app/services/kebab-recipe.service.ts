@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
+
 import { KebabRecipe } from '../components/longest-kebab/kebab-recipe';
 
 @Injectable({
@@ -19,18 +20,17 @@ export class KebabRecipeService {
     const url = `http://localhost:7071/api/KebabCalculator?baseIngredientWeight=${baseIngredientWeight}`;
     return this.http.get<KebabRecipe>(url).pipe(
       tap(_ => this.log(`fetched kebab recipe baseIngredientWeight=${baseIngredientWeight}`)),
-      catchError(this.handleError<any>(`getKebabRecipe baseIngredientWeight=${baseIngredientWeight}`))
+      catchError(
+        (error: HttpErrorResponse): Observable<any> => {
+            // we expect 404, it's not a failure for us.
+            if (error.status === 404) {
+                return of(null);
+            }
+
+            throw new Error(`Opps, something went wrong. ${error.error}`);            
+        },
+    ),
     );
-  }
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      this.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
   }
 
   private log(message: string) {

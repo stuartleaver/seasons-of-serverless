@@ -1,7 +1,8 @@
 enum CookingUnit {
     Kilos = 1,
     Teaspoons,
-    Whole
+    Whole,
+    Clove
 }
 
 enum LengthUnit {

@@ -5,6 +5,9 @@ import { KebabRecipeService } from 'src/app/services/kebab-recipe.service';
 import { KebabRecipe } from 'src/app/components/longest-kebab/kebab-recipe';
 import { CookingUnit, LengthUnit } from 'src/app/components/longest-kebab/enums'
 
+import { faInfoCircle, faUtensils } from '@fortawesome/free-solid-svg-icons';
+import { ThrowStmt } from '@angular/compiler';
+
 @Component({
   selector: 'app-longest-kebab',
   templateUrl: './longest-kebab.component.html',
@@ -15,6 +18,11 @@ export class LongestKebabComponent implements OnInit {
   kebabForm;
   cookingUnitLabel;
   lengthUnitLabel;
+  loading: boolean;
+  errors: string;
+
+  faInfoCircle = faInfoCircle;
+  faUtensils = faUtensils;
 
   constructor(
     private kebabRecipeService: KebabRecipeService,
@@ -29,7 +37,8 @@ export class LongestKebabComponent implements OnInit {
     this.cookingUnitLabel = new Map<number, string>([
       [CookingUnit.Kilos, 'kilos'],
       [CookingUnit.Teaspoons, 'teaspoons'],
-      [CookingUnit.Whole, 'whole']
+      [CookingUnit.Whole, ''],
+      [CookingUnit.Clove, 'cloves']
     ]);
 
     this.lengthUnitLabel = new Map<number, string>([
@@ -40,8 +49,20 @@ export class LongestKebabComponent implements OnInit {
   }
 
   onSubmit(formData) {
-    const kebabRecipe = this.kebabRecipeService.getKebabRecipe(formData.baseIngredientWeight).subscribe((kebabRecipe => {
+    this.errors = null;
+    this.kebabRecipe = null
+    this.loading = true;
+
+    const kebabRecipe = this.kebabRecipeService.getKebabRecipe(formData.baseIngredientWeight).subscribe(kebabRecipe => {
       this.kebabRecipe = kebabRecipe;
-    }));
+    },
+    error => {
+      this.errors = error;
+
+      this.loading = false;
+    },
+    () => {
+      this.loading = false;
+    });
   }
 }
