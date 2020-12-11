@@ -1,6 +1,6 @@
 ![banner](assets/banner-3.png)
 
-# Challenge 2: The Longest Kebab
+# Challenge 3: The Longest Kebab
 
 ## Solution
 The solution contains a Angular frontend to allow users to input the weight of their main ingredient, and an Azure Function as the backend to calculate the right amount of ingredients.
