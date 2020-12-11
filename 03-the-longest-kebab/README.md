@@ -12,7 +12,7 @@ The length calculation came from reading [Turkish Ground Lamb Kebabs (Adana Keba
 Both the front and backend are then hosted in an Azure Static Web app.
 
 ## Try it yourself
-You can try out a working version deployed to an Azure Static Web App [here](https://www.http://thelongestkebab.cloud).
+You can try out a working version deployed to an Azure Static Web App [here](https://www.thelongestkebab.cloud).
 
 ![the-longest-kebab](assets/the-longest-kebab.png)
 
