@@ -1,0 +1,37 @@
+.c-list {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 12rem;
+}
+
+.c-list__item {
+    flex-basis: 45%;
+    list-style: none;
+    padding-right: 5rem;
+}
+
+.list-group-item.active {
+    border-color: #ff6666;
+    background-color: #ff6666;
+}
+
+.weight {
+    width: 30rem;
+    margin: 0 auto;
+}
+
+.btn-primary {
+    display: flex;
+    margin: 0 auto;
+}
+
+.loading {
+    display: flex;
+    margin: 0 auto;
+}
+
+@media only screen and (min-width: 700px) {
+    .c-list {
+        flex-wrap: nowrap;
+    }
+}

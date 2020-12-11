@@ -21,3 +21,5 @@ Link to the Microsoft repo containing more information and the challenges - [htt
   * See the solution in action - [The Perfect Turkey](https://www.theperfectturkey.cloud)
 * [Challenge Two - Lovely Ladoos](https://github.com/stuartleaver/seasons-of-serverless/tree/main/02-lovely-ladoos)
     * See the solution in action - [Lovely Ladoos](https://www.lovelyladoos.cloud)
+* [Challenge Three - The Longest Kebab](https://github.com/stuartleaver/seasons-of-serverless/tree/main/03-the-longest-kebab)
+    * See the solution in action - [The Longest Kebab](https://www.thelongestkebab.cloud)
