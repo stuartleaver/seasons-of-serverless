@@ -3,6 +3,24 @@
 # Challenge 2: The Longest Kebab
 
 ## Solution
+The solution contains a Angular frontend to allow users to input the weight of their main ingredient, and an Azure Function as the backend to calculate the right amount of ingredients.
+
+The reason behind the term 'main ingredient' and `baseIngredientWeight` in the code, is to try and show that the kebabs do not need to be made from meat. There could be vegetarian options as well.
+
+The length calculation came from reading [Turkish Ground Lamb Kebabs (Adana Kebabs)](https://www.saveur.com/turkish-ground-lamb-kebabs-recipe/). Taking into account the amount of meat in that recipe, the number it servers, and the length of the skewers suggested, it came to about 156g equaled 25.4cm. It may only be an estimation, but these challenges are all about having fun.
+
+Both the front and backend are then hosted in an Azure Static Web app.
+
+## Try it yourself
+You can try out a working version deployed to an Azure Static Web App [here](https://www.http://thelongestkebab.cloud).
+
+![the-longest-kebab](assets/the-longest-kebab.png)
+
+You can also run the Azure Function on it's own. Just start running it in your favourite IDE, or deploy to an Azure Function app. The function works with both a query string or body to pass the turkey weight. With the `POST` verb of course. For example:
+
+`http://localhost:7071/api/KebabCalculator?baseIngredientWeight=0.45`
+
+![postman](assets/postman.png)
 
 # The Challenge
 
