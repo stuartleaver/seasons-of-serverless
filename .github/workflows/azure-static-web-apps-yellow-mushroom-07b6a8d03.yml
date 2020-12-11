@@ -1,13 +1,19 @@
-name: Azure Static Web Apps CI/CD
+name: The Longest Kebab CI/CD
 
 on:
   push:
     branches:
       - main
+    paths:
+    - '!/**'
+    - '03-the-longest-kebab/**'
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
+    paths:
+    - '!/**'
+    - '03-the-longest-kebab/**'
 
 jobs:
   build_and_deploy_job:
