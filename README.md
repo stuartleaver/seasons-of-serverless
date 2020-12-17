@@ -23,3 +23,5 @@ Link to the Microsoft repo containing more information and the challenges - [htt
     * See the solution in action - [Lovely Ladoos](https://www.lovelyladoos.cloud)
 * [Challenge Three - The Longest Kebab](https://github.com/stuartleaver/seasons-of-serverless/tree/main/03-the-longest-kebab)
     * See the solution in action - [The Longest Kebab](https://www.thelongestkebab.cloud)
+* [Challenge Four - The Longest Kebab](https://github.com/stuartleaver/seasons-of-serverless/tree/main/04-a-big-barbecue)
+    * See the solution in action - [A Big Barbecue](https://www.bigbarbecue.cloud)

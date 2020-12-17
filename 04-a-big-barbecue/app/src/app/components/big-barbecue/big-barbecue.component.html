@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-6 bbq-details">
+        <div class="col-md-6 bbq-details">
             <h2 class=" text-center">Your BBQ Details</h2>
             <form [formGroup]="barbequeForm" (ngSubmit)="onSubmit(barbequeForm.value)">
                 <div class="mb-3">
@@ -16,7 +16,7 @@
                         <input type="text" class="form-control" formControlName="guests" placeholder="No. of guests" aria-label="Guests" aria-describedby="guests" [ngClass]="displayFieldCss('guests')">
                     </div>
                     <div *ngIf="barbequeForm.get('guests').invalid && barbequeForm.get('guests').errors && (barbequeForm.get('guests').dirty || barbequeForm.get('guests').touched)">
-                        <small class="text-danger" *ngIf="barbequeForm.get('guests').errors?.pattern || barbequeForm.get('guests').hasError('required')">This field requires a number.</small>
+                        <small class="text-danger" *ngIf="barbequeForm.get('guests').errors?.pattern || barbequeForm.get('guests').hasError('required')">This field requires a whole number.</small>
                     </div>
                 </div>
                 <div class="form-group mb-3">
@@ -28,7 +28,7 @@
                         <input type="text" class="form-control" formControlName="budget" placeholder="Budget" aria-label="Budget" aria-describedby="budget" [ngClass]="displayFieldCss('budget')">
                     </div>
                     <div *ngIf="barbequeForm.get('budget').invalid && barbequeForm.get('budget').errors && (barbequeForm.get('budget').dirty || barbequeForm.get('budget').touched)">
-                        <small class="text-danger" *ngIf="barbequeForm.get('budget').errors?.pattern || barbequeForm.get('budget').hasError('required')">This field requires a number.</small>
+                        <small class="text-danger" *ngIf="barbequeForm.get('budget').errors?.pattern || barbequeForm.get('budget').hasError('required')">This field requires a number to two decimal places.</small>
                     </div>
                 </div>
                 <h2>BBQ Items</h2>
@@ -74,7 +74,7 @@
                 <br />
             </form>
         </div>
-        <div class="col-6 bbq-results">
+        <div class="col-md-6 bbq-results">
             <h2 class=" text-center">Results</h2>
             <div *ngIf="errors" class='container'>
                 <div class="alert alert-danger text-center" role="alert">
