@@ -11,7 +11,7 @@ namespace BarbecueCost.Api.Entities
         public double? Cost { get; set; }
 
         [JsonProperty("quantity")]
-        public int? Quantity { get; set; }
+        public double? Quantity { get; set; }
 
         [JsonProperty("quantityUnit")]
         public string QuantityUnit { get; set; }
