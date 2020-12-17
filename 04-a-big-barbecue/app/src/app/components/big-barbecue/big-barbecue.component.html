@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-6">
+        <div class="col-6 bbq-details">
             <h2 class=" text-center">Your BBQ Details</h2>
             <form [formGroup]="barbequeForm" (ngSubmit)="onSubmit(barbequeForm.value)">
                 <div class="mb-3">
@@ -74,7 +74,7 @@
                 <br />
             </form>
         </div>
-        <div class="col-6">
+        <div class="col-6 bbq-results">
             <h2 class=" text-center">Results</h2>
             <div *ngIf="errors" class='container'>
                 <div class="alert alert-danger text-center" role="alert">
