@@ -1,13 +1,19 @@
-name: Azure Static Web Apps CI/CD
+name: A Big Barbecue CI/CD
 
 on:
   push:
     branches:
       - main
+    paths:
+    - '!/**'
+    - '04-a-big-barbecue/**'
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
+    paths:
+    - '!/**'
+    - '04-a-big-barbecue/**'
 
 jobs:
   build_and_deploy_job:
