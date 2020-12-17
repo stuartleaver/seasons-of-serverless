@@ -1,0 +1,100 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6 bbq-details">
+            <h2 class=" text-center">Your BBQ Details</h2>
+            <form [formGroup]="barbequeForm" (ngSubmit)="onSubmit(barbequeForm.value)">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Organisers name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Your name" formControlName="name" [ngClass]="displayFieldCss('name')">
+                    <div *ngIf="barbequeForm.get('name').invalid && barbequeForm.get('name').errors && (barbequeForm.get('name').dirty || barbequeForm.get('name').touched)">
+                        <small class="text-danger" *ngIf="barbequeForm.get('name').hasError('required')">This field is required.</small>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="guests" class="form-label">Number of guests</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" formControlName="guests" placeholder="No. of guests" aria-label="Guests" aria-describedby="guests" [ngClass]="displayFieldCss('guests')">
+                    </div>
+                    <div *ngIf="barbequeForm.get('guests').invalid && barbequeForm.get('guests').errors && (barbequeForm.get('guests').dirty || barbequeForm.get('guests').touched)">
+                        <small class="text-danger" *ngIf="barbequeForm.get('guests').errors?.pattern || barbequeForm.get('guests').hasError('required')">This field requires a number.</small>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="budget" class="form-label">Your budget</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="cost">£</span>
+                        </div>
+                        <input type="text" class="form-control" formControlName="budget" placeholder="Budget" aria-label="Budget" aria-describedby="budget" [ngClass]="displayFieldCss('budget')">
+                    </div>
+                    <div *ngIf="barbequeForm.get('budget').invalid && barbequeForm.get('budget').errors && (barbequeForm.get('budget').dirty || barbequeForm.get('budget').touched)">
+                        <small class="text-danger" *ngIf="barbequeForm.get('budget').errors?.pattern || barbequeForm.get('budget').hasError('required')">This field requires a number.</small>
+                    </div>
+                </div>
+                <h2>BBQ Items</h2>
+                <div [formArrayName]="'barbecueItems'">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Cost (per kg/pcs)</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let barbecueItem of barbequeForm.get('barbecueItems')['controls']; let i = index;" [formGroupName]="i" class="form-group">
+                                <th scope="row">
+                                    {{barbequeForm.controls.barbecueItems.controls[i].controls.name.value}}
+                                </th>
+                                <td>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="cost">£</span>
+                                        </div>
+                                        <input type="text" class="form-control" formControlName="cost" placeholder="Cost" aria-label="Cost" aria-describedby="cost">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="quantity">{{barbequeForm.controls.barbecueItems.controls[i].controls.quantityUnit.value}}</span>
+                                        </div>
+                                        <input type="text" class="form-control" formControlName="quantity" placeholder="Quantity" aria-label="Quantity" aria-describedby="quantity">
+                                    </div>
+                                </td>
+                                <td>
+                                    {{barbequeForm.controls.barbecueItems.controls[i].controls.cost.value * barbequeForm.controls.barbecueItems.controls[i].controls.quantity.value | currency:'GBP'}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="brazil-primary" type="submit">Get cost breakdown</button>
+                <br />
+            </form>
+        </div>
+        <div class="col-6 bbq-results">
+            <h2 class=" text-center">Results</h2>
+            <div *ngIf="errors" class='container'>
+                <div class="alert alert-danger text-center" role="alert">
+                    {{errors}}
+                </div>
+            </div>
+            <div class='container'>
+                <div *ngIf="loading" class="spinner-border loading" role="status">
+                </div>
+            </div>
+            <div *ngIf="barbecueCostResult">
+                <p><b>{{barbecueCostResult.name}}</b>, the cost of your barbecue works out as follows:</p>
+                <p>The total cost of the items for your BBQ is <b>{{barbecueCostResult.barbequeItemsTotalCost | currency:"GBP"}}</b>.</p>
+                <p>Your BBQ will cost <b>{{barbecueCostResult.costPerPerson | currency:"GBP"}}</b> per person</p>
+                <p>You have <b [ngClass]="(barbecueCostResult.remainingBudget >= 0)?'positiveBudget':'negativeBudget'">{{barbecueCostResult.remainingBudget | currency:"GBP"}}</b> of your budget remaining.</p>
+                <p>The items you need to purchase, are:</p>
+                <ul *ngFor="let item of barbecueCostResult.barbecueItems">
+                    <li>{{item.quantity}}{{item.quantityUnit}} of {{item.name}} at {{item.cost * item.quantity | currency:"GBP"}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

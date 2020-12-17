@@ -1,0 +1,11 @@
+.jumbotron {
+    background-color: #009c3b;
+}
+
+.jumbotron h1 {
+    color: #ffdf00;
+}
+
+.jumbotron a {
+    color: #002776 !important;
+}
