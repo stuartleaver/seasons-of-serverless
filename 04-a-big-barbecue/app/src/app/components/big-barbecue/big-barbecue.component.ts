@@ -37,8 +37,8 @@ export class BigBarbecueComponent implements OnInit {
 
     this.barbequeForm = this.formBuilder.group({
       name: ['', Validators.required ],
-      guests: [10, [Validators.required, Validators.pattern("^[0-9]*$")]],
-      budget: [1000, [Validators.required, Validators.pattern("^[0-9]*$")] ],
+      guests: [, [Validators.required, Validators.pattern("^[0-9]*$")] ],
+      budget: [, [Validators.required, Validators.pattern("^[0-9]*$")] ],
       barbecueItems: this.barbecueItemGroups,
     });
   }
