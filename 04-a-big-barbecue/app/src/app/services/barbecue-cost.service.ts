@@ -16,7 +16,7 @@ export class BarbecueCostService {
   constructor(private http: HttpClient) { }
 
   getBarbecueCosting(formData): Observable<any> {
-    const url = `/api/barbecuecost`;
+    const url = `http://localhost:7071/api/barbecuecost`;
     return this.http.post<BarbequeCostResult>(url, formData).pipe(
       tap(_ => this.log(`fetched barbecue costing`)),
       catchError(

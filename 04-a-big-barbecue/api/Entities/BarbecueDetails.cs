@@ -12,7 +12,7 @@ namespace BarbecueCost.Api.Entities
         public int Guests { get; set; }
 
         [JsonProperty("budget")]
-        public int Budget { get; set; }
+        public double Budget { get; set; }
 
         [JsonProperty("barbecueItems")]
         public List<BarbecueItem> BarbecueItems { get; set; }
