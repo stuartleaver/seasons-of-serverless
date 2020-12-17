@@ -22,8 +22,6 @@ namespace BarbecueCost.Api
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            string name = req.Query["name"];
-
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var data = JsonConvert.DeserializeObject<BarbecueDetails>(requestBody);
             barbecueItems = data.BarbecueItems;

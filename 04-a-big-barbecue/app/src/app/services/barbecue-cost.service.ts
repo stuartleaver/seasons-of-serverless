@@ -26,7 +26,7 @@ export class BarbecueCostService {
                 return of(null);
             }
 
-            throw new Error(`Opps, something went wrong. ${error.error}`);
+            throw new Error(`Opps, something went wrong.`);
         },
     ),
     );
