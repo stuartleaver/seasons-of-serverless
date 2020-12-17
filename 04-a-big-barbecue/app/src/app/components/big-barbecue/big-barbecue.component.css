@@ -1,0 +1,29 @@
+.positiveBudget {
+    color: green;
+}
+
+.negativeBudget {
+    color: red;
+}
+
+.has-error {
+    border-left: 5px solid red;
+}
+
+.loading {
+    display: flex;
+    margin: 0 auto;
+}
+
+.brazil-primary {
+    background-color: #4CAF50;
+    color: #ffdf00;
+    border: none;
+    padding: 15px 32px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    display: flex;
+    margin: 0 auto;
+}
