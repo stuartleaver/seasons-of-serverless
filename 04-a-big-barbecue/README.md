@@ -3,7 +3,81 @@
 # Challenge 4: A Big Barbecue!
 
 ## Solution
+The solution contains a Angular frontend to allow users to input the details of their barbecue, and an Azure Function as the backend to calculate the costs and how the spend compared to the budget.
 
+The BBQ organiser can input the following details:
+* Their name
+* Number of guests
+* Budget
+* The items for their barbeque, cost per kg/pcs and the quantity
+
+Some example prices have been pre-filled.
+
+Using the spreadsheet as a guide and a bit of artistic license, the Azure Function will then calculate the following:
+* Total cost of the items
+* Cost per guest
+* Over or under budget
+
+The results then get displayed back to the user. They can then alter the quantities and cost of the items to see how the overall cost is affected.
+
+Both the front and backend are then hosted in an Azure Static Web app.
+
+## Try it yourself
+You can try out a working version deployed to an Azure Static Web App [here](http://www.bigbarbecue.cloud).
+
+![the-longest-kebab](assets/a-big-barbeque.png)
+
+You can also run the Azure Function on it's own. Just start running it in your favourite IDE, or deploy to an Azure Function app. Just create a `POST` request with the same body that the UI would send. For example:
+
+`http://localhost:7071/api/barbecuecost`
+
+```json
+{
+   "name":"Stuart",
+   "guests":10,
+   "budget":"175",
+   "barbecueItems":[
+      {
+         "name":"Beef",
+         "cost":12,
+         "quantity":"3",
+         "quantityUnit":"kg"
+      },
+      {
+         "name":"Fillet",
+         "cost":32.77,
+         "quantity":"2",
+         "quantityUnit":"kg"
+      },
+      {
+         "name":"Sausages",
+         "cost":12.59,
+         "quantity":"2",
+         "quantityUnit":"kg"
+      },
+      {
+         "name":"Grilled Cheese",
+         "cost":1.15,
+         "quantity":"10",
+         "quantityUnit":"pcs"
+      },
+      {
+         "name":"Garlic Bread",
+         "cost":1.25,
+         "quantity":"10",
+         "quantityUnit":"pcs"
+      },
+      {
+         "name":"Chicken",
+         "cost":5,
+         "quantity":"1.5",
+         "quantityUnit":"kg"
+      }
+   ]
+}
+```
+
+![postman](assets/postman.png)
 
 # The Challenge
 
