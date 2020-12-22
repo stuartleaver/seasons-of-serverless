@@ -1,0 +1,248 @@
+﻿@page "/"
+
+@using Entities
+@using Microsoft.AspNetCore.SignalR.Client
+
+<h1>@hubConnection.State</h1>
+
+<p>
+    <input @bind="SoakGaraeTteokTime" /> Current value: @SoakGaraeTteokTime
+</p>
+
+<p>
+    <input @bind="StirFryBeefTime" /> Current value: @StirFryBeefTime
+</p>
+
+<p>
+    <input @bind="BoilWaterTime" /> Current value: @BoilWaterTime
+</p>
+Í
+<p>
+    <input @bind="EmailAddress" /> Email Address (for automated reminders): @BoilWaterTime
+</p>
+
+<ol>    
+    <li>
+        Slice garae-ttok into small pieces – no thicker than 5 mm.
+    </li>
+    <ul>
+        <li>You can buy sliced garae-tteok.</li>
+        <li>But in this case, put the sliced garae-tteok into a bowl of water for about @SoakGaraeTteokTime mins.</li>
+    </ul>
+    @if (DisplayStartSoakingGaraeTteokButton)
+    {
+        <button @onclick="StartSoakingTteokGuk">Start cooking Tteok Guk</button>
+    }
+    @if(SoakingGaraeTteok)
+    {
+        <li>The next steps will appear after about @SoakGaraeTteokTime mins when your garae-tteok has soaked. Check your emails for an automated reminder.</li>
+    }
+
+@if (DisplayInstructionsSectionTwo)
+{
+        <li>Slice spring onion.</li>
+        <li>At high heat, stir-fry the diced beef with sesame oil and olive oil until the beef surface goes brown.</li>
+        @if (DisplayStartStirFryBeefButton)
+        {
+            <button @onclick="StartStirFryBeefInstructions">Start stir frying the beef</button>
+        }
+        @if(StirFryingBeef)
+        {
+            <li>The next steps will appear after about @StirFryBeefTime mins when your beef is cooked. Check your emails for an automated reminder.</li>
+        }
+        @if (DisplayCheckBeefIsCooked)
+        {
+            <li>Check that you beef has gone brown. If not, continue to cook and watch until it is.</li>
+            <button @onclick="BeefIsCooked">Click when the beef is cooked</button>
+        }
+}
+@if (DisplayInstructionsSectionThree)
+{
+        <li>Put the water into the wok and boil for about @BoilWaterTime mins with medium heat.</li>
+        @if (DisplayStartBoilWaterButton)
+        {
+            <button @onclick="StartBoilWater">Start boiling the water</button>
+        }
+        @if(BoilingWater)
+        {
+            <li>The next steps will appear after about @BoilWaterTime mins when your water has boiled. Check your emails for an automated reminder.</li>
+        }
+        @if (DisplayStartBoilWaterButtonClicked)
+        {
+            <li>While boiling, remove bubbles from the water from time to time.</li>
+            <li>Get the eggs beaten.</li>
+        }
+}
+
+@if (DisplayInstructionsSectionFour)
+{
+        <li>Put the minced garlic and soy sauce into the boiled soup. Add some salt, if necessary.</li>
+        <li>Add the beaten egg and sliced spring onion.</li>
+        <li>Serve the soup with pepper drizzled on top.</li>
+}
+</ol>
+
+<hr>
+
+<ul id="messagesList">
+    @foreach (var message in messages)
+    {
+        <li>@message.UniqueTteokGukInstructionsId: @message.Message</li>
+    }
+</ul>
+
+@code {
+    private HubConnection hubConnection;
+
+    private List<TteokGukMessage> messages = new List<TteokGukMessage>();
+
+    private readonly HttpClient _httpClient = new HttpClient();
+
+    private readonly string functionAppBaseUri = "http://localhost:7071/api/";
+
+    private int SoakGaraeTteokTime { get; set; } = 1;
+
+    private int StirFryBeefTime { get; set; } = 1;
+
+    private int BoilWaterTime { get; set; } = 1;
+
+    private string EmailAddress { get; set; }
+
+    private string UniqueTteokGukInstructionsId { get; set; }
+
+    private bool DisplayStartSoakingGaraeTteokButton { get; set; } = true;
+
+    private bool DisplayStartStirFryBeefButton { get; set; } = false;
+
+    private bool DisplayInstructionsSectionOne { get; set; } = true;
+
+    private bool DisplayInstructionsSectionTwo { get; set; } = false;
+
+    private bool DisplayCheckBeefIsCooked { get; set; } = false;
+
+    private bool DisplayInstructionsSectionThree { get; set; } = false;
+
+    private bool DisplayStartBoilWaterButton { get; set; } = false;
+
+    private bool DisplayStartBoilWaterButtonClicked { get; set; } = false;
+
+    private bool DisplayInstructionsSectionFour { get; set; } = false;
+
+    private bool SoakingGaraeTteok { get; set; } = false;
+
+    private bool StirFryingBeef { get; set; } = false;
+
+    private bool BoilingWater { get; set; } = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(functionAppBaseUri)
+            .Build();
+
+        hubConnection.On<TteokGukMessage>("tteokGukMessage", (tteokGukMessage) =>
+        {
+            if(tteokGukMessage.UniqueTteokGukInstructionsId == UniqueTteokGukInstructionsId)
+            {
+                messages.Add(tteokGukMessage);
+
+                switch(tteokGukMessage.Message)
+                {
+                    case "SoakGaraeTteokCompleted":
+                        SoakingGaraeTteok = false;
+
+                        DisplayInstructionsSectionTwo = true;
+                        
+                        DisplayStartStirFryBeefButton = true;
+
+                        break;
+                    case "StirFryBeefCompleted":
+                        StirFryingBeef = false;
+
+                        DisplayCheckBeefIsCooked = true;
+
+                        break;
+                    case "BoilWaterCompleted":
+                        BoilingWater = false;
+
+                        DisplayInstructionsSectionFour = true;
+
+                        break;
+                }
+            }
+
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
+    }
+
+    public bool IsConnected =>
+        hubConnection.State == HubConnectionState.Connected;
+
+    private async void StartSoakingTteokGuk()
+    {
+        UniqueTteokGukInstructionsId = Guid.NewGuid().ToString();
+
+        DisplayStartSoakingGaraeTteokButton = false;
+
+        DisplayInstructionsSectionOne = true;
+
+        var data = new TteokGukMessage
+        {
+            UniqueTteokGukInstructionsId = UniqueTteokGukInstructionsId.ToString(),
+            Message = "SoakGaraeTteok",
+            Duration = SoakGaraeTteokTime,
+            EmailAddress = EmailAddress
+        };
+
+        SoakingGaraeTteok = true;
+
+        await _httpClient.PostAsJsonAsync($"{functionAppBaseUri}soakgaraetteok", data);
+    }
+
+    private async void StartStirFryBeefInstructions()
+    {
+        DisplayStartStirFryBeefButton = false;
+
+        var data = new TteokGukMessage
+        {
+            UniqueTteokGukInstructionsId = UniqueTteokGukInstructionsId.ToString(),
+            Message = "StirFryBeef",
+            Duration = StirFryBeefTime,
+            EmailAddress = EmailAddress
+        };
+
+        StirFryingBeef = true;
+
+        await _httpClient.PostAsJsonAsync($"{functionAppBaseUri}stirfrybeef", data);
+    }
+
+    private void BeefIsCooked()
+    {
+        DisplayCheckBeefIsCooked = false;
+
+        DisplayInstructionsSectionThree = true;
+
+        DisplayStartBoilWaterButton = true;
+    }
+    
+    private async void StartBoilWater()
+    {
+        DisplayStartBoilWaterButton = false;
+
+        DisplayStartBoilWaterButtonClicked = true;
+
+        var data = new TteokGukMessage
+        {
+            UniqueTteokGukInstructionsId = UniqueTteokGukInstructionsId.ToString(),
+            Message = "BoilWater",
+            Duration = SoakGaraeTteokTime,
+            EmailAddress = EmailAddress
+        };
+
+        BoilingWater = true;
+
+        await _httpClient.PostAsJsonAsync($"{functionAppBaseUri}boilwater", data);
+    }
+}
