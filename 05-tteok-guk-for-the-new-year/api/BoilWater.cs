@@ -38,7 +38,7 @@ namespace TteokGuk.Api
 
             message = new SendGridMessage();
             message.AddTo(tteokGukMessage.EmailAddress);
-            message.AddContent("text/html", "This is to remind you that your water has now boiled and you can now view the rest of the instructions.");
+            message.AddContent("text/html", "This is to remind you that your water has now boiled and you can now view the rest of the instructions. ");
             message.SetFrom(new EmailAddress("noreply@tteokguk.cloud"));
             message.SetSubject("Your Tteok Guk Reminder - Water has boiled");
 

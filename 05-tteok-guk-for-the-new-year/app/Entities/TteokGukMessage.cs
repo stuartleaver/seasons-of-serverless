@@ -1,4 +1,4 @@
-using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace app.Entities
 {
@@ -10,6 +10,7 @@ namespace app.Entities
 
         public int Duration { get; set; }
 
+        [Required]
         public string EmailAddress { get; set; }
     }
 }

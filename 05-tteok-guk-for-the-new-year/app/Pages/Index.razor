@@ -1,95 +1,130 @@
 ﻿@page "/"
 
 @using Entities
+@using Helpers
 @using Microsoft.AspNetCore.SignalR.Client
 
-<h1>@hubConnection.State</h1>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 bbq-details">
+            <h2 class=" text-center">Instructions</h2>
+            <button type="button" class="btn btn-primary button-centered" data-toggle="modal" data-target="#ingredientsModal">
+                Launch Ingredients
+            </button>
+            <br />
+            <div class="form-group">
+                <label for="emailAddress">Email address (for automated reminders)</label>
+                <input type="email" class="form-control" id="emailAddress" aria-describedby="emailHelp" placeholder="Enter email" @bind="EmailAddress">
+                @if(!IsValidEmailAddress)
+                {
+                    <small id="emailError" class="form-text text-danger">Please enter a valid email address.</small>
+                }
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email address.</small>
+            </div>
+            <ol>
+                <li>Slice garae-ttok into small pieces – no thicker than 5 mm.</li>
+                <ul>
+                    <li>You can buy sliced garae-tteok.</li>
+                    <li>But in this case, put the sliced garae-tteok into a bowl of water for about @SoakGaraeTteokTime mins.</li>
+                </ul>
+                @if (DisplayStartSoakingGaraeTteokButton)
+                {
+                    <button type="button" class="btn btn-primary button-centered" @onclick="StartSoakingTteokGuk">Start soaking the Tteok Guk</button>
+                }
+                @if(SoakingGaraeTteok)
+                {
+                    <li>The next steps will appear after about @SoakGaraeTteokTime mins when your garae-tteok has soaked. Check your emails for an automated reminder.</li>
+                }
+                @if (DisplayInstructionsSectionTwo)
+                {
+                    <li>Slice spring onion.</li>
+                    <li>At high heat, stir-fry the diced beef with sesame oil and olive oil until the beef surface goes brown.</li>
+                    @if (DisplayStartStirFryBeefButton)
+                    {
+                        <button type="button" class="btn btn-primary button-centered" @onclick="StartStirFryBeefInstructions">Start stir frying the beef</button>
+                    }
+                    @if(StirFryingBeef)
+                    {
+                        <li>The next steps will appear after about @StirFryBeefTime mins when your beef is cooked. Check your emails for an automated reminder.</li>
+                    }
+                    @if (DisplayCheckBeefIsCooked)
+                    {
+                        <li>Check that you beef has gone brown. If not, continue to cook and watch until it is.</li>
+                        <button type="button" class="btn btn-primary button-centered" @onclick="BeefIsCooked">Click when the beef is cooked</button>
+                    }
+                }
+                @if (DisplayInstructionsSectionThree)
+                {
+                    <li>Put the water into the wok and boil for about @BoilWaterTime mins with medium heat.</li>
+                    @if (DisplayStartBoilWaterButton)
+                    {
+                        <button type="button" class="btn btn-primary button-centered" @onclick="StartBoilWater">Start boiling the water</button>
+                    }
+                    @if(BoilingWater)
+                    {
+                        <li>The next steps will appear after about @BoilWaterTime mins when your water has boiled. Check your emails for an automated reminder.</li>
+                    }
+                    @if (DisplayStartBoilWaterButtonClicked)
+                    {
+                        <li>While boiling, remove bubbles from the water from time to time.</li>
+                        <li>Get the eggs beaten.</li>
+                    }
+                }
+                @if (DisplayInstructionsSectionFour)
+                {
+                    <li>Put the minced garlic and soy sauce into the boiled soup. Add some salt, if necessary.</li>
+                    <li>Add the beaten egg and sliced spring onion.</li>
+                    <li>Serve the soup with pepper drizzled on top.</li>
+                }
+            </ol>
+            @if (DisplayInstructionsSectionFour)
+            {
+                <h3 class="text-center">새해 복 많이 받으세요</h3>
+            }
+        </div>
+        <div class="col-md-6 bbq-results">
+            <h2 class="text-center">SignalR Messages</h2>
+            <p class="text-center">Hub Status - <b>@hubConnection.State</b></p>
+            <ul id="messagesList">
+                @foreach (var message in messages)
+                {
+                    <li>@DateTime.Now: @message.Message</li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
 
-<p>
-    <input @bind="SoakGaraeTteokTime" /> Current value: @SoakGaraeTteokTime
-</p>
 
-<p>
-    <input @bind="StirFryBeefTime" /> Current value: @StirFryBeefTime
-</p>
-
-<p>
-    <input @bind="BoilWaterTime" /> Current value: @BoilWaterTime
-</p>
-Í
-<p>
-    <input @bind="EmailAddress" /> Email Address (for automated reminders): @BoilWaterTime
-</p>
-
-<ol>    
-    <li>
-        Slice garae-ttok into small pieces – no thicker than 5 mm.
-    </li>
-    <ul>
-        <li>You can buy sliced garae-tteok.</li>
-        <li>But in this case, put the sliced garae-tteok into a bowl of water for about @SoakGaraeTteokTime mins.</li>
-    </ul>
-    @if (DisplayStartSoakingGaraeTteokButton)
-    {
-        <button @onclick="StartSoakingTteokGuk">Start cooking Tteok Guk</button>
-    }
-    @if(SoakingGaraeTteok)
-    {
-        <li>The next steps will appear after about @SoakGaraeTteokTime mins when your garae-tteok has soaked. Check your emails for an automated reminder.</li>
-    }
-
-@if (DisplayInstructionsSectionTwo)
-{
-        <li>Slice spring onion.</li>
-        <li>At high heat, stir-fry the diced beef with sesame oil and olive oil until the beef surface goes brown.</li>
-        @if (DisplayStartStirFryBeefButton)
-        {
-            <button @onclick="StartStirFryBeefInstructions">Start stir frying the beef</button>
-        }
-        @if(StirFryingBeef)
-        {
-            <li>The next steps will appear after about @StirFryBeefTime mins when your beef is cooked. Check your emails for an automated reminder.</li>
-        }
-        @if (DisplayCheckBeefIsCooked)
-        {
-            <li>Check that you beef has gone brown. If not, continue to cook and watch until it is.</li>
-            <button @onclick="BeefIsCooked">Click when the beef is cooked</button>
-        }
-}
-@if (DisplayInstructionsSectionThree)
-{
-        <li>Put the water into the wok and boil for about @BoilWaterTime mins with medium heat.</li>
-        @if (DisplayStartBoilWaterButton)
-        {
-            <button @onclick="StartBoilWater">Start boiling the water</button>
-        }
-        @if(BoilingWater)
-        {
-            <li>The next steps will appear after about @BoilWaterTime mins when your water has boiled. Check your emails for an automated reminder.</li>
-        }
-        @if (DisplayStartBoilWaterButtonClicked)
-        {
-            <li>While boiling, remove bubbles from the water from time to time.</li>
-            <li>Get the eggs beaten.</li>
-        }
-}
-
-@if (DisplayInstructionsSectionFour)
-{
-        <li>Put the minced garlic and soy sauce into the boiled soup. Add some salt, if necessary.</li>
-        <li>Add the beaten egg and sliced spring onion.</li>
-        <li>Serve the soup with pepper drizzled on top.</li>
-}
-</ol>
-
-<hr>
-
-<ul id="messagesList">
-    @foreach (var message in messages)
-    {
-        <li>@message.UniqueTteokGukInstructionsId: @message.Message</li>
-    }
-</ul>
+<div class="modal fade" id="ingredientsModal" tabindex="-1" role="dialog" aria-labelledby="ingredientsModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Tteok-guk Ingredients (for 4 people)</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <ul>
+              <li>Garae-tteok: 400g</li>
+              <li>Diced beef: 100g</li>
+              <li>Water: 10 cups</li>
+              <li>Eggs: 2</li>
+              <li>Spring onion: 1</li>
+              <li>Minced garlic: 1 tablespoon</li>
+              <li>Soy sauce: 2 tablespoon</li>
+              <li>Sesame oil: 1 tablespoon</li>
+              <li>Olive oil: 1 tablespoon</li>
+              <li>Salt and pepper</li>
+          </ul>  
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 @code {
     private HubConnection hubConnection;
@@ -100,11 +135,11 @@
 
     private readonly string functionAppBaseUri = "http://localhost:7071/api/";
 
-    private int SoakGaraeTteokTime { get; set; } = 1;
+    private int SoakGaraeTteokTime { get; set; } = 30;
 
-    private int StirFryBeefTime { get; set; } = 1;
+    private int StirFryBeefTime { get; set; } = 8;
 
-    private int BoilWaterTime { get; set; } = 1;
+    private int BoilWaterTime { get; set; } = 30;
 
     private string EmailAddress { get; set; }
 
@@ -133,6 +168,9 @@
     private bool StirFryingBeef { get; set; } = false;
 
     private bool BoilingWater { get; set; } = false;
+
+    private bool IsValidEmailAddress { get; set; } = true;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -182,13 +220,18 @@
 
     private async void StartSoakingTteokGuk()
     {
+        ValidateEmailAddress();
+
+        if(!IsValidEmailAddress)
+            return;
+
         UniqueTteokGukInstructionsId = Guid.NewGuid().ToString();
 
         DisplayStartSoakingGaraeTteokButton = false;
 
         DisplayInstructionsSectionOne = true;
 
-        var data = new TteokGukMessage
+        var tteokGukMessage = new TteokGukMessage
         {
             UniqueTteokGukInstructionsId = UniqueTteokGukInstructionsId.ToString(),
             Message = "SoakGaraeTteok",
@@ -196,16 +239,23 @@
             EmailAddress = EmailAddress
         };
 
+        messages.Add(tteokGukMessage);
+
         SoakingGaraeTteok = true;
 
-        await _httpClient.PostAsJsonAsync($"{functionAppBaseUri}soakgaraetteok", data);
+        await _httpClient.PostAsJsonAsync($"{functionAppBaseUri}soakgaraetteok", tteokGukMessage);
     }
 
     private async void StartStirFryBeefInstructions()
     {
+        ValidateEmailAddress();
+
+        if(!IsValidEmailAddress)
+            return;
+
         DisplayStartStirFryBeefButton = false;
 
-        var data = new TteokGukMessage
+        var tteokGukMessage = new TteokGukMessage
         {
             UniqueTteokGukInstructionsId = UniqueTteokGukInstructionsId.ToString(),
             Message = "StirFryBeef",
@@ -213,9 +263,11 @@
             EmailAddress = EmailAddress
         };
 
+        messages.Add(tteokGukMessage);
+
         StirFryingBeef = true;
 
-        await _httpClient.PostAsJsonAsync($"{functionAppBaseUri}stirfrybeef", data);
+        await _httpClient.PostAsJsonAsync($"{functionAppBaseUri}stirfrybeef", tteokGukMessage);
     }
 
     private void BeefIsCooked()
@@ -229,11 +281,16 @@
     
     private async void StartBoilWater()
     {
+        ValidateEmailAddress();
+
+        if(!IsValidEmailAddress)
+            return;
+
         DisplayStartBoilWaterButton = false;
 
         DisplayStartBoilWaterButtonClicked = true;
 
-        var data = new TteokGukMessage
+        var tteokGukMessage = new TteokGukMessage
         {
             UniqueTteokGukInstructionsId = UniqueTteokGukInstructionsId.ToString(),
             Message = "BoilWater",
@@ -241,8 +298,20 @@
             EmailAddress = EmailAddress
         };
 
+        messages.Add(tteokGukMessage);
+
         BoilingWater = true;
 
-        await _httpClient.PostAsJsonAsync($"{functionAppBaseUri}boilwater", data);
+        await _httpClient.PostAsJsonAsync($"{functionAppBaseUri}boilwater", tteokGukMessage);
+    }
+
+    private void ValidateEmailAddress()
+    {
+        if(!RegexUtilities.IsValidEmail(EmailAddress))
+        {
+            IsValidEmailAddress = false;
+        } else {
+            IsValidEmailAddress = true;
+        }
     }
 }

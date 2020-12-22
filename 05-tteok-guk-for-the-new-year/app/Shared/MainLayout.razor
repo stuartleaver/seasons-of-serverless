@@ -1,17 +1,28 @@
 @inherits LayoutComponentBase
-
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
+<div class="content" role="main">
+    <div class="jumbotron text-center">
+        <img src="images/tteok-guk.png" alt="tteok-guk">
+        <h1 class="display-4">Tteok-guk for The New Year</h1>
+        <p class="lead">In Korea, when New Year begins, everyone eats tteok-guk (rice cake soup). There are various
+            shapes of tteok, but especially for greeting New Year, garae-tteok is the most popular to make the soup.</p>
+        <p class="lead">As garae-tteok has a long and cylindrical shape, people wish to live long, by eating tteok-guk.
+            When cooking tteok-guk, the garae-tteok is sliced into small pieces, which look like coins. This coin-like
+            shape is believed to bring wealth.</p>
+        <p class="lead">Brought to you by <a href="https://twitter.com/search?q=%23SeasonsOfServerless"
+                target="_blank">#SeasonsOfServerless</a>,
+            with a seasoning of <a href="https://azure.microsoft.com/en-gb/services/functions" target="_blank">Azure
+                Functions</a>, <a
+                href="https://docs.microsoft.com/en-us/azure/azure-functions/durable/durable-functions-overview?tabs=csharp"
+                target="_blank">Durable Functions</a>,
+            <a href="https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor" target="_blank">Blazor</a>, <a
+                href="https://azure.microsoft.com/en-gb/services/signalr-service/" target="_blank">SignalR</a> and <a
+                href="https://azure.microsoft.com/en-gb/services/app-service/static/" target="_blank">Static Web
+                Apps</a>
+        </p>
+        <p class="lead text-white">View the code on <a
+                href="https://github.com/stuartleaver/seasons-of-serverless/tree/main/05-tteok-guk-for-the-new-year"
+                target="_blank">GitHub</a>
+        </p>
     </div>
-
-    <div class="main">
-        <div class="top-row px-4">
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-        </div>
-
-        <div class="content px-4">
-            @Body
-        </div>
-    </div>
+    @Body
 </div>
