@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.WebJobs.Extensions.SignalRService;
 using Microsoft.Extensions.Logging;
+using SendGrid.Helpers.Mail;
+using TteokGuk.Api.Entities;
 
 namespace TteokGuk.Api
 {
@@ -15,28 +18,53 @@ namespace TteokGuk.Api
         public static async Task RunOrchestrator(
             [OrchestrationTrigger] IDurableOrchestrationContext context)
         {
-            var timer = context.CurrentUtcDateTime.Add(TimeSpan.FromMinutes(1));
+            var data = context.GetInput<TteokGukMessage>();
+            
+            //var timer = context.CurrentUtcDateTime.Add(TimeSpan.FromMinutes(data.Duration));
+            var timer = context.CurrentUtcDateTime.Add(TimeSpan.FromSeconds(15));
 
             await context.CreateTimer(timer, CancellationToken.None);
 
-            await context.CallActivityAsync("StirFryBeef_Completed", "StirFryBeef");
+            await context.CallActivityAsync("StirFryBeef_Completed", data);
         }
 
         [FunctionName("StirFryBeef_Completed")]
-        public static string StirFryBeefCompleted([ActivityTrigger] string name, ILogger log)
+        public static Task StirFryBeefCompleted([ActivityTrigger] TteokGukMessage tteokGukMessage,
+        [SendGrid(ApiKey = "SENDGRID_API_KEY")] out SendGridMessage message,
+        [SignalR(HubName = "tteokGukHub")] IAsyncCollector<SignalRMessage> signalRMessages,
+        ILogger log)
         {
-            log.LogInformation($"Saying hello to {name}.");
-            return $"Hello {name}!";
+            log.LogInformation($"StirFryBeef_Completed: {tteokGukMessage.UniqueTteokGukInstructionsId}.");
+
+            message = new SendGridMessage();
+            message.AddTo(tteokGukMessage.EmailAddress);
+            message.AddContent("text/html", "This is to remind you to check that your beef has cooked and that you can now view the rest of the instructions.");
+            message.SetFrom(new EmailAddress("noreply@tteokguk.cloud"));
+            message.SetSubject("Your Tteok Guk Reminder - Beef has cooked");
+            
+            return signalRMessages.AddAsync(
+                new SignalRMessage
+                {
+                    Target = "tteokGukMessage",
+                    Arguments = new[] { 
+                        new TteokGukMessage
+                        {
+                            UniqueTteokGukInstructionsId = tteokGukMessage.UniqueTteokGukInstructionsId,
+                            Message = "StirFryBeefCompleted"
+                        }
+                    }
+                });
         }
 
         [FunctionName("StirFryBeef_HttpStart")]
         public static async Task<HttpResponseMessage> HttpStart(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestMessage req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route="stirfrybeef")] HttpRequestMessage req,
             [DurableClient] IDurableOrchestrationClient starter,
             ILogger log)
         {
-            // Function input comes from the request content.
-            string instanceId = await starter.StartNewAsync("StirFryBeef", null);
+            var data = await req.Content.ReadAsAsync<TteokGukMessage>();
+            
+            string instanceId = await starter.StartNewAsync("StirFryBeef", data);
 
             log.LogInformation($"Started orchestration with ID = '{instanceId}'.");
 
