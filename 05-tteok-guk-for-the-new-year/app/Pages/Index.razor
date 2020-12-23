@@ -176,6 +176,7 @@
     {
         hubConnection = new HubConnectionBuilder()
             .WithUrl(functionAppBaseUri)
+            .WithAutomaticReconnect()
             .Build();
 
         hubConnection.On<TteokGukMessage>("tteokGukMessage", (tteokGukMessage) =>

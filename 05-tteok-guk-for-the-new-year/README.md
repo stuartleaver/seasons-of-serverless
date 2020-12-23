@@ -35,12 +35,14 @@ Value: <SENDGRID-API-KEY>
 ```
 You can get the SignalR Connection String from the `Key` blade of the SignalR resource.
 
-You will also need to edit the following infor in the code. In an ideal world, these would be through config settings (something to change in the future):
+You will also need to edit the following information in the code. In an ideal world, these would be through config settings (something to change in the future):
 
 * The variable named `functionAppBaseUri` in the Blazor `Index.razor` file. This needs to be the URL from the Function App created above.
 * The email addresses in the Functions used as the 'From' address for SendGrid. This should be known from setting up the account and validating the sending address.
 
 Deploy the Functions to the function app and the Blazor WASM UI to a Static Web App.
+
+Don't forget to add the domain names being used by the Static Web App to the `CORS` blade on the Function App and SignalR resources.
 
 # The Challenge
 
