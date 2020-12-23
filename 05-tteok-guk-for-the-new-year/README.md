@@ -4,7 +4,7 @@
 
 ## Solution
 
-This solution names use of a Blazor WASM UI, Azure Functions, SignalR and SendGrid. For the Functions, Durable Entities are used to keep track of the 'waiting' periods, and then SignalR is used to broadcast 'completed' messages back to the UI. SendGrid is also used to send reminder emails.
+This solution makes use of a Blazor WASM UI, Azure Functions, SignalR and SendGrid. For the Functions, Durable Functions are used to keep track of the 'waiting' periods, and then SignalR is used to broadcast 'completed' messages back to the UI. SendGrid is also used to send reminder emails.
 
 ### Try it yourself
 You can try out a working version deployed to an Azure Static Web App [here](https://www.tteokguk.cloud).
@@ -15,7 +15,7 @@ Here are some screenshots of the completed process.
 ![tteokguk](assets/tteokguk-emails.png)
 
 ### Resource Setup
-As of developing this, Static Web apps only support Http Triggers. Therefore, the Functions need to be hosted in a Function App. To create this, along with the other resources needed, you can use the following AZ CLI commands, replacing values which are relevant for you:
+As of developing this, Static Web Apps only support Http Triggers. Therefore, the Functions need to be hosted in a Function App. To create this, along with the other resources needed, you can use the following AZ CLI commands, replacing values which are relevant for you:
 
 ```
 az storage account create --name <NAME> --resource-group <RESOURCE-GROUP-NAME> --location <LOCATION> --kind StorageV2 --sku Standard_LRS
