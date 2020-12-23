@@ -4,6 +4,43 @@
 
 ## Solution
 
+This solution names use of a Blazor WASM UI, Azure Functions, SignalR and SendGrid. For the Functions, Durable Entities are used to keep track of the 'waiting' periods, and then SignalR is used to broadcast 'completed' messages back to the UI. SendGrid is also used to send reminder emails.
+
+### Try it yourself
+You can try out a working version deployed to an Azure Static Web App [here](https://www.tteokguk.cloud).
+
+![tteokguk](assets/tteokgukui.png)
+![tteokguk](assets/tteokguk-emails.png)
+
+### Resource Setup
+As of developing this, Static Web apps only support Http Triggers. Therefore, the Functions need to be hosted in a Function App. To create this, along with the other resources needed, you can use the following AZ CLI commands, replacing values which are relevant for you:
+
+```
+az storage account create --name <NAME> --resource-group <RESOURCE-GROUP-NAME> --location <LOCATION> --kind StorageV2 --sku Standard_LRS
+
+az signalr create --name <NAME> --resource-group <RESOURCE-GROUP-NAME> --location <LOCATION> --sku Free_F1 --unit-count 1 --service-mode Serverless --enable-message-logs True
+
+az functionapp create --resource-group <RESOURCE-GROUP-NAME> --consumption-plan-location <LOCATION> --runtime dotnet --functions-version 3 --name <NAME> --os-type Linux --storage-account <STORAGE-ACCOUNT-NAME>
+```
+
+You will also need a SendGrid account. The free developer tier should be sufficient. You can create an account [here](https://signup.sendgrid.com) and just follow the instructions to set up email sending. Part of this process will be the generation of a key which you will need below.
+
+Add new application settings to the Function App:
+```
+Name: AzureSignalRConnectionString
+Value: <SIGNAL-R-CONNECTION-STRING>
+
+Name: SENDGRID_API_KEY
+Value: <SENDGRID-API-KEY>
+```
+You can get the SignalR Connection String from the `Key` blade of the SignalR resource.
+
+You will also need to edit the following infor in the code. In an ideal world, these would be through config settings (something to change in the future):
+
+* The variable named `functionAppBaseUri` in the Blazor `Index.razor` file. This needs to be the URL from the Function App created above.
+* The email addresses in the Functions used as the 'From' address for SendGrid. This should be known from setting up the account and validating the sending address.
+
+Deploy the Functions to the function app and the Blazor WASM UI to a Static Web App.
 
 # The Challenge
 
@@ -14,7 +51,7 @@ In Korea, when New Year begins, everyone eats tteok-guk (rice cake soup). There 
 
 As garae-tteok has a long and cylindrical shape, people wish to live long, by eating tteok-guk. When cooking tteok-guk, the garae-tteok is sliced into small pieces, which look like coins. This coin-like shape is believed to bring wealth.
 
-![soup](graphics/tteokguk.jpg)
+![soup](assets/tteokguk.jpg)
 
 > [Image credit](https://blog.naver.com/cjstar1/220918926273)
 
