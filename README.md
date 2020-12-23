@@ -26,4 +26,4 @@ Link to the Microsoft repo containing more information and the challenges - [htt
 * [Challenge Four - The Longest Kebab](https://github.com/stuartleaver/seasons-of-serverless/tree/main/04-a-big-barbecue)
     * See the solution in action - [A Big Barbecue](https://www.bigbarbecue.cloud)
 * [Challenge Five - Tteok-guk for The New Year](https://github.com/stuartleaver/seasons-of-serverless/tree/main/05-tteok-guk-for-the-new-year)
-        * See the solution in action - [A Big Barbecue](https://www.tteokguk.cloud)
+    * See the solution in action - [Tteok-guk for The New Year](https://www.tteokguk.cloud)
