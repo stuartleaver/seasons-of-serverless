@@ -9,7 +9,9 @@ This solution names use of a Blazor WASM UI, Azure Functions, SignalR and SendGr
 ### Try it yourself
 You can try out a working version deployed to an Azure Static Web App [here](https://www.tteokguk.cloud).
 
-![tteokguk](assets/tteokgukui.png)
+Here are some screenshots of the completed process.
+
+![tteokguk](assets/tteokgukui-after.png)
 ![tteokguk](assets/tteokguk-emails.png)
 
 ### Resource Setup
