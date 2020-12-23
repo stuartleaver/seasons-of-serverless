@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace app.Entities
@@ -12,5 +13,7 @@ namespace app.Entities
 
         [Required]
         public string EmailAddress { get; set; }
+
+        public DateTime MessageTime { get; set; }
     }
 }

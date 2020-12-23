@@ -49,7 +49,8 @@ namespace TteokGuk.Api
                         new TteokGukMessage
                         {
                             UniqueTteokGukInstructionsId = tteokGukMessage.UniqueTteokGukInstructionsId,
-                            Message = "SoakGaraeTteokCompleted"
+                            Message = "SoakGaraeTteokCompleted",
+                            MessageTime = DateTime.UtcNow
                         }
                     }
                 });

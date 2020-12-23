@@ -49,7 +49,8 @@ namespace TteokGuk.Api
                         new TteokGukMessage
                         {
                             UniqueTteokGukInstructionsId = tteokGukMessage.UniqueTteokGukInstructionsId,
-                            Message = "BoilWaterCompleted"
+                            Message = "BoilWaterCompleted",
+                            MessageTime = DateTime.UtcNow
                         }
                     }
                 });

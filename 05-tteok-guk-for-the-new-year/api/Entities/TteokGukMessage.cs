@@ -11,5 +11,7 @@ namespace TteokGuk.Api.Entities
         public int Duration { get; set; }
 
         public string EmailAddress { get; set; }
+
+        public DateTime MessageTime { get; set; }
     }
 }
