@@ -88,7 +88,7 @@
             <ul id="messagesList">
                 @foreach (var message in messages)
                 {
-                    <li>@DateTime.Now: @message.Message</li>
+                    <li>@message.MessageTime: @message.Message</li>
                 }
             </ul>
         </div>
@@ -237,7 +237,8 @@
             UniqueTteokGukInstructionsId = UniqueTteokGukInstructionsId.ToString(),
             Message = "SoakGaraeTteok",
             Duration = SoakGaraeTteokTime,
-            EmailAddress = EmailAddress
+            EmailAddress = EmailAddress,
+            MessageTime = DateTime.UtcNow
         };
 
         messages.Add(tteokGukMessage);
@@ -261,7 +262,8 @@
             UniqueTteokGukInstructionsId = UniqueTteokGukInstructionsId.ToString(),
             Message = "StirFryBeef",
             Duration = StirFryBeefTime,
-            EmailAddress = EmailAddress
+            EmailAddress = EmailAddress,
+            MessageTime = DateTime.UtcNow
         };
 
         messages.Add(tteokGukMessage);
@@ -296,7 +298,8 @@
             UniqueTteokGukInstructionsId = UniqueTteokGukInstructionsId.ToString(),
             Message = "BoilWater",
             Duration = SoakGaraeTteokTime,
-            EmailAddress = EmailAddress
+            EmailAddress = EmailAddress,
+            MessageTime = DateTime.UtcNow
         };
 
         messages.Add(tteokGukMessage);

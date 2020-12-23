@@ -49,7 +49,8 @@ namespace TteokGuk.Api
                         new TteokGukMessage
                         {
                             UniqueTteokGukInstructionsId = tteokGukMessage.UniqueTteokGukInstructionsId,
-                            Message = "StirFryBeefCompleted"
+                            Message = "StirFryBeefCompleted",
+                            MessageTime = DateTime.UtcNow
                         }
                     }
                 });
