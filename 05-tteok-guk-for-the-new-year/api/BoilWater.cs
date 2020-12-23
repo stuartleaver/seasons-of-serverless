@@ -20,9 +20,8 @@ namespace TteokGuk.Api
         {
             var data = context.GetInput<TteokGukMessage>();
 
-            //var timer = context.CurrentUtcDateTime.Add(TimeSpan.FromMinutes(data.Duration));
-            var timer = context.CurrentUtcDateTime.Add(TimeSpan.FromSeconds(15));
-
+            var timer = context.CurrentUtcDateTime.Add(TimeSpan.FromMinutes(data.Duration));
+            
             await context.CreateTimer(timer, CancellationToken.None);
 
             await context.CallActivityAsync("BoilWater_Completed", data);
