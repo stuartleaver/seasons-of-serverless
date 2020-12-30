@@ -1,63 +1,48 @@
 <template>
-  <div class="hello">
-    <h1>Family name: {{ this.family.familyName }}</h1>
+  <div class="container">
     <p v-if="errors.length">
-    <b>Please correct the following error(s):</b>
-    <ul>
-      <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
-    </ul>
-  </p>
-    <div>
-      <h2>Reserve</h2>
-      <input type="text" class="input" name="name" v-model="name" />
-      <select class="form-control" v-model="selectedChocolate">
-        <option
-          v-for="chocolate in chocolates"
-          v-bind:value="chocolate"
-          v-bind:key="chocolate"
-        >
-          {{ chocolate }}
-        </option>
-      </select>
-      <input type="text" class="input" name="quantity" v-model="quantity" />
-      <button type="submit" class="button is-danger" @click="onReserve">
-        Reserve chocolate
-      </button>
-    </div>
-    <div>
-      <h2>Details</h2>
-      <p v-if="this.family.chocolateBox.chocolateBoxSize === 1">
-        Chocolate box size: Small
-      </p>
-      <p v-if="this.family.chocolateBox.chocolateBoxSize === 2">
-        Chocolate box size: Medium
-      </p>
-      <p v-if="this.family.chocolateBox.chocolateBoxSize === 3">
-        Chocolate box size: Large
-      </p>
-      <ul id="chocolate-box">
-        <li
-          v-for="chocolate in this.family.chocolateBox.chocolates"
-          :key="chocolate.name"
-        >
-          {{ chocolate.name }} {{ chocolate.quantity }}
-        </li>
+      <b>Please correct the following error(s):</b>
+      <ul>
+        <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
       </ul>
-      <p>
-        Chocolates remaining: {{ this.family.chocolateBox.remainingChocolates }}
-      </p>
-    </div>
-    <div>
-      <h2>Reservations</h2>
-      <ul id="reservations">
-        <li
-          v-for="reservation in this.family.reservations"
-          :key="reservation.reservedDateTime"
-        >
-          {{ reservation.reservedDateTime }} {{ reservation.name }}:
-          {{ reservation.chocolateName }} - {{ reservation.quantity }}
-        </li>
-      </ul>
+    </p>
+    <div class="row justify-content-center">
+      <div class="col-md-6 create-family">
+        <h2 class=" text-center">Family Details</h2>
+        <p>Family name: {{ this.family.familyName }}</p>
+        <div>
+          <h2>Reserve</h2>
+          <input type="text" class="input" name="name" v-model="name" />
+          <select class="form-control" v-model="selectedChocolate">
+            <option v-for="chocolate in chocolates" v-bind:value="chocolate" v-bind:key="chocolate">
+              {{ chocolate }}
+            </option>
+          </select>
+          <input type="text" class="input" name="quantity" v-model="quantity" />
+          <button type="submit" class="button is-danger" @click="onReserve">Reserve chocolate</button>
+        </div>
+        <div>
+          <h2>Details</h2>
+          <p v-if="this.family.chocolateBox.chocolateBoxSize === 1">Chocolate box size: Small</p>
+          <p v-if="this.family.chocolateBox.chocolateBoxSize === 2">Chocolate box size: Medium</p>
+          <p v-if="this.family.chocolateBox.chocolateBoxSize === 3">Chocolate box size: Large</p>
+          <ul id="chocolate-box">
+            <li v-for="chocolate in this.family.chocolateBox.chocolates" v-bind:key="chocolate.name">
+              {{ chocolate.name }} {{ chocolate.quantity }}
+            </li>
+          </ul>
+          <p>Chocolates remaining: {{ this.family.chocolateBox.remainingChocolates }}</p>
+        </div>
+      </div>
+      <div class="col-md-6 load-family">
+        <h2 class="text-center">Reservations</h2>
+        <ul id="reservations">
+          <li v-for="reservation in this.family.reservations" v-bind:key="reservation.reservedDateTime">
+            {{ reservation.reservedDateTime }} {{ reservation.name }}:
+            {{ reservation.chocolateName }} - {{ reservation.quantity }}
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>

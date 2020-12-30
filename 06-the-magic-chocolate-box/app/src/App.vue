@@ -1,18 +1,17 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="The Magic Chocolate Box"/>
+    <TheMagicChocolateBox msg="The Magic Chocolate Box"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TheMagicChocolateBox from './components/TheMagicChocolateBox.vue'
 
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    TheMagicChocolateBox
   }
 }
 </script>
@@ -24,6 +23,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

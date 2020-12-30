@@ -1,48 +1,36 @@
 <template>
-  <div class="hello">
-      <p v-if="errors.length">
-    <b>Please correct the following error(s):</b>
-    <ul>
-      <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
-    </ul>
-  </p>
-    <div>
-      <h1>Create Family</h1>
-      <div class="field">
-        <label class="label">Name</label>
-        <input
-          type="text"
-          class="input"
-          name="name"
-          v-model="createFamilyName"
-        />
+  <div class="container">
+    <p v-if="errors.length">
+      <b>Please correct the following error(s):</b>
+      <ul>
+        <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+      </ul>
+    </p>
+    <div class="row justify-content-center">
+      <div class="col-md-6 create-family">
+        <h2 class=" text-center">Create Family</h2>
+        <div class="field">
+          <label class="label">Name</label>
+          <input type="text" class="input" name="name" v-model="createFamilyName" />
+        </div>
+        <select name="chocolateBoxSize" id="chocolateBoxSize" v-model="chocolateBoxSize">
+          <option value="1">Small</option>
+          <option value="2">Medium</option>
+          <option value="3">Large</option>
+        </select>
+        <div class="field has-text-right">
+          <button type="submit" class="button is-danger" @click="onCreateFamily">Create Family</button>
+        </div>
       </div>
-
-      <select
-        name="chocolateBoxSize"
-        id="chocolateBoxSize"
-        v-model="chocolateBoxSize"
-      >
-        <option value="1">Small</option>
-        <option value="2">Medium</option>
-        <option value="3">Large</option>
-      </select>
-      <div class="field has-text-right">
-        <button type="submit" class="button is-danger" @click="onCreateFamily">
-          Create Family
-        </button>
-      </div>
-    </div>
-    <div>
-      <h1>Load Family</h1>
-      <div class="field">
-        <label class="label">Name</label>
-        <input type="text" class="input" name="name" v-model="loadFamilyName" />
-      </div>
-      <div class="field has-text-right">
-        <button type="submit" class="button is-danger" @click="onLoadFamily">
-          Load Family
-        </button>
+      <div class="col-md-6 load-family">
+        <h2 class="text-center">Load Family</h2>
+        <div class="field">
+          <label class="label">Name</label>
+          <input type="text" class="input" name="name" v-model="loadFamilyName" />
+        </div>
+        <div class="field has-text-right">
+          <button type="submit" class="button is-danger" @click="onLoadFamily">Load Family</button>
+        </div>
       </div>
     </div>
   </div>
