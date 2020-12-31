@@ -124,7 +124,7 @@ export default {
 
       if (this.isValidReservation()) {
         axios
-          .post("http://localhost:7071/api/reserve", {
+          .post("/api/reserve", {
             familyName: this.family.familyName,
             name: this.name,
             chocolateName: this.selectedChocolate,
@@ -178,7 +178,7 @@ export default {
 
       axios
         .get(
-          `http://localhost:7071/api/listchocolates/${this.family.chocolateBox.chocolateBoxSize}`
+          `/api/listchocolates/${this.family.chocolateBox.chocolateBoxSize}`
         )
         .then((response) => {
           console.log(response.data);
@@ -203,7 +203,7 @@ export default {
       });
 
       axios
-        .post("http://localhost:7071/api/getfamily", {
+        .post("/api/getfamily", {
           familyName: this.family.familyName,
         })
         .then((response) => {

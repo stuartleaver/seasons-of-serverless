@@ -107,7 +107,7 @@ export default {
         this.errors.push("Name required.");
       } else {
         axios
-          .post("http://localhost:7071/api/createfamily", {
+          .post("/api/createfamily", {
             familyName: this.createFamilyName,
             chocolateBoxSize: this.chocolateBoxSize,
           })
@@ -138,7 +138,7 @@ export default {
         this.errors.push("Name required.");
       } else {
         axios
-          .post("http://localhost:7071/api/getfamily", {
+          .post("/api/getfamily", {
             familyName: this.loadFamilyName,
           })
           .then((response) => {
@@ -159,7 +159,7 @@ export default {
     getChocolateBoxes: function () {
       console.log("List chocolate box sizes")
       axios
-        .get("http://localhost:7071/api/listchocolateboxes")
+        .get("/api/listchocolateboxes")
         .then((response) => {
           console.log(response.data);
 
