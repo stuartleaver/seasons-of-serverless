@@ -102,6 +102,7 @@ export default {
       });
 
       this.errors = [];
+      this.successes = [];
 
       if (!this.createFamilyName) {
         this.errors.push("Name required.");
@@ -133,6 +134,7 @@ export default {
       });
 
       this.errors = [];
+      this.successes = [];
 
       if (!this.loadFamilyName) {
         this.errors.push("Name required.");
@@ -142,8 +144,12 @@ export default {
             familyName: this.loadFamilyName,
           })
           .then((response) => {
-            console.log(response.data);
-            this.$emit("familyLoaded", response.data);
+            if(response.data.length===0){
+              this.errors.push("No data was returned. The surname you seached for may not exist yet.")
+            } else {
+              console.log(response.data);
+              this.$emit("familyLoaded", response.data);
+            }
           })
           .catch((error) => {
             // handle error
