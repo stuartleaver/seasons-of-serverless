@@ -5,13 +5,11 @@
       header="The Magic Chocolate Box"
       lead="In some families, around the holiday season, there is always a big box of chocolates on the table, and there's always a little cousin who grabs your favorite one! This year, we can't be together in person but maybe we can prepare little individual boxes for each person. All we have to do is choose the right chocolate for the right person!"
     >
-      <!-- <img alt="Tasty ladoos" src="../assets/ladoo.png" /> -->
+      <img alt="Tasty ladoos" src="../assets/chocolates.png" />
       <br />
       <br />
       <p>
-        Have you made the perfect Ladoo? Have a URL to a photo of your Ladoos?
-        Enter it below and watch as Azure Functions and Machine Learning work
-        their magic to predict if you have made the perfect ladoo.
+        Below you can either setup your family's magic chocolate box, or load a previous created one. From there, you and your family can reserve the chocolates.
       </p>
       <p>
         Brought to you by
@@ -47,7 +45,7 @@
       </p>
     </b-jumbotron>
     <FamilyDetails v-if="!family" @familyLoaded="onFamilyLoaded" />
-    <ChocolateBoxDetails v-if="family" v-bind:family="family" />
+    <ChocolateBoxDetails v-if="family" v-bind:family="family" @familyRefreshed="onFamilyRefreshed" />
   </div>
 </template>
 
@@ -71,24 +69,23 @@ export default {
       this.family = value;
       console.log(this.family);
     },
-  },
+    onFamilyRefreshed(value) {
+      this.family = value;
+      console.log(this.family);
+    },
+  }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+.header {
+  background-color: #0fad89;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+.header p {
+  color: white;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.header a {
+  color: blue;
 }
 </style>
