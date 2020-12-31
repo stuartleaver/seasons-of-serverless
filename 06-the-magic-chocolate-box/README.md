@@ -8,7 +8,7 @@ The solution makes use of Azure Functions, Vue.js. For the Functions, Durable En
 
 When reading back Durable Entities, only the committed state is returned. This means that there may be some events still queued and waiting to be run. As a result of this, the data returned may look like it's not complete. However, it will catch up and be there for the next time you query it.
 
-Although their is a UI to makes things a bit easier, details of the Functions are below. To see an example family reserving their chocolates, you can view the Joneses story [here](SHEPPARDEXAMPLE.md).
+Although there is a UI to makes things a bit easier, details of the Functions are below. To see an example family reserving their chocolates, you can view the Joneses story [here](SHEPPARDEXAMPLE.md).
 
 ### Try it yourself
 You can try out a working version deployed to an Azure Static Web App [here](https://www.magicchocolatebox.cloud).
@@ -19,13 +19,17 @@ Here are some screenshots of the completed process.
 ![sheppard-example](assets/sheppard-example.png)
 
 ### Resource Setup
-As Durable Entities are being used, a Storage Account is needed.
+As Durable Entities are being used, a Storage Account is needed. Also, ss of developing this, Static Web Apps only support Http Triggers. Therefore, the Functions need to be hosted in a Function App. To create this, along with the other resources needed, you can use the following AZ CLI commands, replacing values which are relevant for you:
 
 ```
 az storage account create --name <NAME> --resource-group <RESOURCE-GROUP-NAME> --location <LOCATION> --kind StorageV2 --sku Standard_LRS
+
+az functionapp create --resource-group seasons-of-serverless --consumption-plan-location uksouth --runtime dotnet --functions-version 3 --name magicchocolatebox --os-type Linux --storage-account magicchocolatebox
 ```
 
-Remember to set this in the `AzureWebJobsStorage` value in `local.settings.json` of your Functions project. Also, it will need setting if you deploy to Azure as well.
+Deploy the Functions to the function app and the Vue.js UI to a Static Web App.
+
+Don't forget to add the domain names being used by the Static Web App to the `CORS` blade on the Function App resource.
 
 ### HTTP Calls
 

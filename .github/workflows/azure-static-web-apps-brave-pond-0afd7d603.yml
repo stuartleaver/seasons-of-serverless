@@ -1,13 +1,19 @@
-name: Azure Static Web Apps CI/CD
+name: The Magic Chocolate Box
 
 on:
   push:
     branches:
       - main
+    paths:
+    - '!/**'
+    - '06-the-magic-chocolate-box/**'
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
+    paths:
+    - '!/**'
+    - '06-the-magic-chocolate-box/**'
 
 jobs:
   build_and_deploy_job:
@@ -28,7 +34,7 @@ jobs:
           ###### Repository/Build Configurations - These values can be configured to match you app requirements. ######
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
           app_location: "/06-the-magic-chocolate-box/app" # App source code path
-          api_location: "/06-the-magic-chocolate-box/api" # Api source code path - optional
+          api_location: "/api" # Api source code path - optional
           output_location: "dist" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
 

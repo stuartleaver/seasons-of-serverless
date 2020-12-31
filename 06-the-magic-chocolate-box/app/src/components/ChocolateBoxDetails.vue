@@ -124,7 +124,7 @@ export default {
 
       if (this.isValidReservation()) {
         axios
-          .post("/api/reserve", {
+          .post("https://magicchocolatebox.azurewebsites.net/api/reserve", {
             familyName: this.family.familyName,
             name: this.name,
             chocolateName: this.selectedChocolate,
@@ -178,7 +178,7 @@ export default {
 
       axios
         .get(
-          `/api/listchocolates/${this.family.chocolateBox.chocolateBoxSize}`
+          `https://magicchocolatebox.azurewebsites.net/api/listchocolates/${this.family.chocolateBox.chocolateBoxSize}`
         )
         .then((response) => {
           console.log(response.data);
@@ -203,7 +203,7 @@ export default {
       });
 
       axios
-        .post("/api/getfamily", {
+        .post("https://magicchocolatebox.azurewebsites.net/api/getfamily", {
           familyName: this.family.familyName,
         })
         .then((response) => {
