@@ -8,7 +8,13 @@ namespace MagicChocolateBox.Chocolates
         {
             Chocolates.Add(new Chocolate
             {
-                Name = "Milk cube",
+                Name = "Almond paste",
+                Quantity = 5
+            });
+
+            Chocolates.Add(new Chocolate
+            {
+                Name = "Amazon",
                 Quantity = 5
             });
 
@@ -20,13 +26,7 @@ namespace MagicChocolateBox.Chocolates
 
             Chocolates.Add(new Chocolate
             {
-                Name = "Kathmandu",
-                Quantity = 5
-            });
-
-            Chocolates.Add(new Chocolate
-            {
-                Name = "Discreet",
+                Name = "Black cube",
                 Quantity = 5
             });
 
@@ -38,31 +38,31 @@ namespace MagicChocolateBox.Chocolates
 
             Chocolates.Add(new Chocolate
             {
+                Name = "Discreet",
+                Quantity = 5
+            });
+
+            Chocolates.Add(new Chocolate
+            {
                 Name = "Hypoxia",
                 Quantity = 5
             });
 
             Chocolates.Add(new Chocolate
             {
-                Name = "Black cube",
+                Name = "Kathmandu",
                 Quantity = 5
             });
 
             Chocolates.Add(new Chocolate
             {
-                Name = "Almond paste",
+                Name = "Milk cube",
                 Quantity = 5
             });
 
             Chocolates.Add(new Chocolate
             {
-                Name = "Milk instinct",
-                Quantity = 5
-            });
-
-            Chocolates.Add(new Chocolate
-            {
-                Name = "Amazon",
+                Name = "Milk Instinct",
                 Quantity = 5
             });
         }
