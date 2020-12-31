@@ -4,12 +4,28 @@
 
 ## Solution
 
+The solution makes use of Azure Functions, Vue.js. For the Functions, Durable Entities are used to maintain the state of different families. This state being the chocolate box they selected and the reservations their family members have made.
+
+When reading back Durable Entities, only the committed state is returned. This means that there may be some events still queued and waiting to be run. As a result of this, the data returned may look like it's not complete. However, it will catch up and be there for the next time you query it.
+
+Although their is a UI to makes things a bit easier, details of the Functions are below. To see an example family reserving their chocolates, you can view the Joneses story [here](SHEPPARDEXAMPLE.md).
+
+### Try it yourself
+You can try out a working version deployed to an Azure Static Web App [here](https://www.magicchocolatebox.cloud).
+
+Here are some screenshots of the completed process.
+
+![front-page](assets/front-page.png)
+![sheppard-example](assets/sheppard-example.png)
+
 ### Resource Setup
 As Durable Entities are being used, a Storage Account is needed.
 
 ```
 az storage account create --name <NAME> --resource-group <RESOURCE-GROUP-NAME> --location <LOCATION> --kind StorageV2 --sku Standard_LRS
 ```
+
+Remember to set this in the `AzureWebJobsStorage` value in `local.settings.json` of your Functions project. Also, it will need setting if you deploy to Azure as well.
 
 ### HTTP Calls
 
@@ -34,7 +50,7 @@ az storage account create --name <NAME> --resource-group <RESOURCE-GROUP-NAME> -
 {
     "familyName": string,
     "name": string,
-    "chocolatename": string,
+    "chocolateName": string,
     "quantity": int
 }
 ```
