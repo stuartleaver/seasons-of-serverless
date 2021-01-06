@@ -5,13 +5,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RecipeNotifier.Entities;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RecipeNotifier.Api
 {
     public static class SendRequest
     {
         [FunctionName("SendRequest")]
-        public static async void Run(
+        public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "sendrequest")] HttpRequest req,
             [Queue("testqueue"),StorageAccount("AzureWebJobsStorage")] ICollector<RecipeRequest> queue,
             ILogger log)
@@ -22,6 +24,8 @@ namespace RecipeNotifier.Api
             var data = JsonConvert.DeserializeObject<RecipeRequest>(requestBody);
 
             queue.Add(data);
+
+            return new OkObjectResult("Request recieved");
         }
     }
 }

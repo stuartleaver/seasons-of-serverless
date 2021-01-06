@@ -1,9 +1,8 @@
 <template>
   <div class="container">
-    <h1>{{ msg }}</h1>
     <div class="row justify-content-center">
       <div class="col-md-6 create-family">
-        <div id="myMap"></div>
+        <div id="azure-map"></div>
       </div>
       <div class="col-md-6 load-family">
         <div class="mb-3">
@@ -13,8 +12,8 @@
         <div class="mb-3">
           <label for="selectedLongitude" class="form-label">Selected Longitude</label>
           <input type="text" class="form-control" id="selectedLongitude" placeholder="" v-model="selectedLongitude">
-          <!-- <input class="btn btn-primary" type="submit" value="Find Regional Center" @click="onFindRegionalCenter"> -->
         </div>
+        <br />
         <div v-if="country">
           <h2>Regional Center Information</h2>
           <div class="mb-3">
@@ -29,12 +28,21 @@
             <label for="country" class="form-label">Country</label>
             <input type="text" class="form-control" id="country" placeholder="" v-model="country">
           </div>
+          <div class="mb-3">
+                <label for="emailAddress">Email address (to recieve your recipe)</label>
+                <input type="email" class="form-control" id="emailAddress" aria-describedby="emailHelp" placeholder="Enter email" @v-model="email">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email address.</small>
+            </div>
           <input class="btn btn-primary" type="submit" value="Send Request" @click="sendRequest">
           <br />
           <br />
           <div class="alert alert-success" role="alert" v-if="requestSent">
             <h4 class="alert-heading">Success</h4>
               <p>Your request has been sent. You should recieve an email soon with the information for your selected area.</p>
+          </div>
+          <div class="alert alert-danger" role="alert" v-if="errors.length">
+            <h4 class="alert-heading">Opps, this is embarrassing!</h4>
+            <p v-for="error in errors" v-bind:key="error">{{ error }}</p>
           </div>
         </div>
       </div>
@@ -58,7 +66,9 @@ export default {
       countrySubdivision: null,
       municipality: null,
       country: null,
-      requestSent: null
+      email: "",
+      requestSent: null,
+      errors: []
     };
   },
   props: {
@@ -66,7 +76,7 @@ export default {
   },
   methods: {
     loadAzureMap: function () {
-      this.map = new atlas.Map("myMap", {
+      this.map = new atlas.Map("azure-map", {
         center: [18, 0],
         zoom: 2.4,
         language: "en-US",
@@ -76,24 +86,29 @@ export default {
         },
       });
 
-      let tempMap = this.map;
+      let map = this.map;
 
       this.map.events.add("ready", () => {
         /* Construct a zoom control*/
         var zoomControl = new atlas.control.ZoomControl();
 
         /* Add the zoom control to the map*/
-        tempMap.controls.add(zoomControl, {
+        map.controls.add(zoomControl, {
           position: "bottom-right",
         });
 
         /*Create a data source and add it to the map*/
         var dataSource = new atlas.source.DataSource();
-        tempMap.sources.add(dataSource);
+        map.sources.add(dataSource);
 
         /* Gets co-ordinates of clicked location*/
-        tempMap.events.add("click", (e) => {
+        map.events.add("click", (e) => {
           this.requestSent = false;
+
+          this.countrySubdivision = null;
+          this.municipality = null;
+          this.country = null;
+
           if (!this.point) {
             var point = new atlas.Shape(new atlas.data.Point(e.position));
             //Add the symbol to the data source.
@@ -111,10 +126,12 @@ export default {
         });
 
         //Create a symbol layer using the data source and add it to the map
-        tempMap.layers.add(new atlas.layer.SymbolLayer(dataSource, null));
+        map.layers.add(new atlas.layer.SymbolLayer(dataSource, null));
       });
     },
     getCountryName: function() {
+      this.errors = [];
+
       axios
           .get(`http://localhost:7071/api/getregionalcenter/${this.selectedLatitude}/${this.selectedLongitude}`)
           .then((response) => {
@@ -126,20 +143,23 @@ export default {
           })
           .catch((error) => {
             // handle error
-            console.log(error.response.data);
-            this.errors.push(error.response.data);
+            console.log(error);
+            
+            this.errors.push("Something went wrong. Please try again later.");
           })
           .then(function () {
             // always executed
           });
     },
     sendRequest: function() {
+      this.errors = [];
+
       axios
           .post("http://localhost:7071/api/sendrequest", {
             countrySubdivision: this.countrySubdivision,
             municipality: this.municipality,
             country: this.country,
-            email: "stuartleaveruk@gmail.com"
+            email: this.email
           })
           .then((response) => {
             console.log(response);
@@ -148,8 +168,9 @@ export default {
           })
           .catch((error) => {
             // handle error
-            console.log(error.response.data);
-            this.errors.push(error.response.data);
+            console.log(error);
+
+            this.errors.push("Something went wrong. Please try again later.");
           })
           .then(function () {
             // always executed
@@ -162,9 +183,8 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#myMap {
+#azure-map {
   height: 50rem;
   width: 100%;
 }

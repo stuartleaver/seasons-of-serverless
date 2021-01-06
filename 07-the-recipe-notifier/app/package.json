@@ -10,7 +10,6 @@
     "dependencies": {
         "axios": "^0.21.1",
         "azure-maps-control": "^2.0.31",
-        "azure-maps-drawing-tools": "^0.1.5",
         "bootstrap-vue": "^2.21.2",
         "core-js": "^3.6.5",
         "semantic-ui-css": "^2.4.1",
