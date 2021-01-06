@@ -15,7 +15,7 @@ namespace RecipeNotifier.Api
         [FunctionName("SendRequest")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "sendrequest")] HttpRequest req,
-            [Queue("testqueue"),StorageAccount("AzureWebJobsStorage")] ICollector<RecipeRequest> queue,
+            [Queue("recipeconnectorqueue"),StorageAccount("AzureWebJobsStorage")] ICollector<RecipeRequest> queue,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");

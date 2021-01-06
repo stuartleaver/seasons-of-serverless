@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
@@ -11,13 +12,13 @@ namespace RecipeNotifier.Api
     public static class ProcessRequest
     {
         [FunctionName("ProcessRequest")]
-        public static void Run([QueueTrigger("testqueue", Connection = "AzureWebJobsStorage")] RecipeRequest request,
+        public static void Run([QueueTrigger("recipeconnectorqueue", Connection = "AzureWebJobsStorage")] RecipeRequest request,
             [SendGrid(ApiKey = "SendGridApiKey")] out SendGridMessage message,
             ILogger log)
         {
             log.LogInformation($"C# Queue trigger function processed: {request.Email}");
 
-            var jollofRiceRecipe = GetGist("ead63597f442dbe62613c1b7eb0dbc7e").Result;
+            var jollofRiceRecipe = GetGist(Environment.GetEnvironmentVariable("GitHubGistId")).Result;
 
             message = new SendGridMessage();
             message.AddTo(string.IsNullOrEmpty(request.Email) ? "noreply@recipeconnector.cloud" : request.Email);

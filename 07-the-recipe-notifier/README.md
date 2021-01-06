@@ -3,11 +3,22 @@
 # Challenge 7: The The Recipe Notifier
 
 ## Solution
+### Try it yourself
+You can try out a working version deployed to an Azure Static Web App [here](https://www.recipeconnector.cloud).
 
+Here are some screenshots of the completed process.
+
+![front-page](assets/front-page.png)
+![email](assets/email.png)
+
+### Resource Setup
+As a Function is making use of a Queue binding, a Storage Account is needed. Also, as of developing this, Static Web Apps only support Http Triggers. Therefore, the Functions need to be hosted in a Function App. To create this, along with the other resources needed, you can use the following AZ CLI commands, replacing values which are relevant for you:
 ```
 az maps account create --name <NAME> --resource-group <RESOURCE-GROUP-NAME> --sku S0
 
 az storage account create --name <NAME> --resource-group <RESOURCE-GROUP-NAME> --location <LOCATION> --kind StorageV2 --sku Standard_LRS
+
+az functionapp create --resource-group <RESOURCE-GROUP-NAME> --consumption-plan-location uksouth --runtime dotnet --functions-version 3 --name <NAME> --os-type Linux --storage-account <STORAGE-ACCOUNT-NAME>
 ```
 
 # The Challenge
@@ -19,7 +30,7 @@ In Africa, city cooks want to reconnect with their country roots. In Kenya, ther
 
 ## Your challenge 🍽
 
-Create a service that will allow a user to send a query for a specific dish to a regional hotline center and receive the appropriate and authentic recipe. This is a great moment to try Azure Maps to work with geoJSON and experiment with serving recipes for each region.
+Create a service that will allow a user to send a query for a specific dish to a given relative of your choosing and receive the appropriate and authentic recipe. You could set up a service to call your Grandma to make sure you have the right ingredients for great jollof rice using [Azure Functions bindings for Twilio](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-twilio?tabs=csharp&WT.mc_id=academic-10922-cxa).
 
 
 ## Resources/Tools Used 🚀
