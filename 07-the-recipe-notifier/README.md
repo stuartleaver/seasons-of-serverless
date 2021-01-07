@@ -1,6 +1,6 @@
 ![banner](assets/banner-7.png)
 
-# Challenge 7: The The Recipe Notifier
+# Challenge 7: The Recipe Notifier
 
 ## Solution
 ### Try it yourself
