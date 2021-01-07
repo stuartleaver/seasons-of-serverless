@@ -29,3 +29,5 @@ Link to the Microsoft repo containing more information and the challenges - [htt
     * See the solution in action - [Tteok-guk for The New Year](https://www.tteokguk.cloud)
 * [Challenge Six: The Magic Chocolate Box](https://github.com/stuartleaver/seasons-of-serverless/tree/main/06-the-magic-chocolate-box)
     * See the solution in action - [The Magic Chocolate Box](https://www.magicchocolatebox.cloud)
+* [Challenge Seven: The Recipe Connector](https://github.com/stuartleaver/seasons-of-serverless/tree/main/07-the-recipe-notifier)
+    * See the solution in action - [The Recipe Connector](https://www.recipeconnector.cloud)
