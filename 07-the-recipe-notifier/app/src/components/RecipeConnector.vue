@@ -176,7 +176,7 @@ export default {
       this.errors = [];
 
       axios
-          .post("/api/sendrequest", {
+          .post("https://recipenotifier.azurewebsites.net/api/sendrequest", {
             countrySubdivision: this.countrySubdivision,
             municipality: this.municipality,
             country: this.country,
