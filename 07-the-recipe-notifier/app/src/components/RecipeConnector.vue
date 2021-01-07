@@ -29,10 +29,10 @@
             <input type="text" class="form-control" id="country" placeholder="" v-model="country">
           </div>
           <div class="mb-3">
-                <label for="emailAddress">Email address (to recieve your recipe)</label>
-                <input type="email" class="form-control" id="emailAddress" aria-describedby="emailHelp" placeholder="Enter email" @v-model="email">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email address.</small>
-            </div>
+            <label for="emailAddress">Email address (to recieve your recipe)</label>
+            <input type="email" class="form-control" id="emailAddress" aria-describedby="emailHelp" placeholder="Enter email" v-model="email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email address.</small>
+          </div>
           <input class="btn btn-primary" type="submit" value="Send Request" @click="sendRequest">
           <br />
           <br />
@@ -67,7 +67,7 @@ export default {
       countrySubdivision: null,
       municipality: null,
       country: null,
-      email: "",
+      email: null,
       requestSent: null,
       errors: []
     };
@@ -136,7 +136,7 @@ export default {
       this.errors = [];
 
       axios
-          .get(`/api/getregionalcenter/${this.selectedLatitude}/${this.selectedLongitude}`)
+          .get(`http://localhost:7071/api/getregionalcenter/${this.selectedLatitude}/${this.selectedLongitude}`)
           .then((response) => {
             console.log(response);
             
@@ -158,7 +158,7 @@ export default {
       this.errors = [];
 
       await axios
-          .get(`/api/azuremaps`)
+          .get(`http://localhost:7071/api/azuremaps`)
           .then((response) => {
             this.azureMaps = response.data
           })
@@ -176,7 +176,7 @@ export default {
       this.errors = [];
 
       axios
-          .post("https://recipenotifier.azurewebsites.net/api/sendrequest", {
+          .post("http://localhost:7100/api/sendrequest", {
             countrySubdivision: this.countrySubdivision,
             municipality: this.municipality,
             country: this.country,
