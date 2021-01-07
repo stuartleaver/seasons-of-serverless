@@ -136,7 +136,7 @@ export default {
       this.errors = [];
 
       axios
-          .get(`http://localhost:7071/api/getregionalcenter/${this.selectedLatitude}/${this.selectedLongitude}`)
+          .get(`/api/getregionalcenter/${this.selectedLatitude}/${this.selectedLongitude}`)
           .then((response) => {
             console.log(response);
             
@@ -158,7 +158,7 @@ export default {
       this.errors = [];
 
       await axios
-          .get(`http://localhost:7071/api/azuremaps`)
+          .get(`/api/azuremaps`)
           .then((response) => {
             this.azureMaps = response.data
           })
@@ -176,7 +176,7 @@ export default {
       this.errors = [];
 
       axios
-          .post("http://localhost:7100/api/sendrequest", {
+          .post("https://recipenotifier.azurewebsites.net/api/sendrequest", {
             countrySubdivision: this.countrySubdivision,
             municipality: this.municipality,
             country: this.country,
