@@ -60,6 +60,7 @@ export default {
   data: function () {
     return {
       map: null,
+      azureMaps: null,
       point: null,
       selectedLatitude: null,
       selectedLongitude: null,
@@ -75,14 +76,16 @@ export default {
     msg: String,
   },
   methods: {
-    loadAzureMap: function () {
+    async loadAzureMap () {
+      await this.getAzureMaps();
+
       this.map = new atlas.Map("azure-map", {
         center: [18, 0],
         zoom: 2.4,
         language: "en-US",
         authOptions: {
           authType: "subscriptionKey",
-          subscriptionKey: process.env.VUE_APP_AZURE_MAP_PRIMARY_KEY,
+          subscriptionKey: this.azureMaps,
         },
       });
 
@@ -133,7 +136,7 @@ export default {
       this.errors = [];
 
       axios
-          .get(`https://recipenotifier.azurewebsites.net/api/getregionalcenter/${this.selectedLatitude}/${this.selectedLongitude}`)
+          .get(`/api/getregionalcenter/${this.selectedLatitude}/${this.selectedLongitude}`)
           .then((response) => {
             console.log(response);
             
@@ -151,11 +154,29 @@ export default {
             // always executed
           });
     },
+    getAzureMaps: async function() {
+      this.errors = [];
+
+      await axios
+          .get(`/api/azuremaps`)
+          .then((response) => {
+            this.azureMaps = response.data
+          })
+          .catch((error) => {
+            // handle error
+            console.log(error);
+            
+            this.errors.push("Something went wrong. Please try again later.");
+          })
+          .then(function () {
+            // always executed
+          });
+    },
     sendRequest: function() {
       this.errors = [];
 
       axios
-          .post("https://recipenotifier.azurewebsites.net/api/sendrequest", {
+          .post("/api/sendrequest", {
             countrySubdivision: this.countrySubdivision,
             municipality: this.municipality,
             country: this.country,
