@@ -1,8 +1,49 @@
 ![banner](assets/banner-7.png)
 
-# Challenge 7: The Recipe Notifier
+# Challenge 7: The Recipe Connector
 
 ## Solution
+The solution may seem a bit more complicated that the challenge may suggest. I had already started the code and used Azure Maps to use geoJSON when the challenge changed. However, I thought I would stick with it, and put my twist on it, which hopefully still fits in. SendGrid has also been used instead of Twilio, but emailing your grandparents is almost as good.
+
+The solution and path that a user would use is:
+
+* Navigate to [The Recipe Connector](https://www.recipeconnector.cloud).
+* From there, navigate around the map (Azure Maps) to find where you would like your jollof recipe to come from.
+* Drop a pin, just by clicking on the map, and some information on the right should pop up. This is the lat/long selected as well as the 'regional centre'. This is populated by making a call to the Azure Maps API to get information on the location where you dropped the pin.
+* Fill in your email address for Grandma to contact you on and click 'Send Request'. This will send the request via a queue (Storage Account) before being picked up by an Azure Function.
+* You should then receive an email back with your recipe. The recipe is held within a Gist, and while it will be the same every time, it shows the idea that it would vary per region.
+
+### API Calls
+
+Here are the details of the API calls:
+
+Description: Get the details from the dropped pin.
+* URL: `https://www.recipeconnector.cloud/api/getregionalcenter/<latitude>/<longitude>`
+* Verb: `GET`
+* Example request: https://www.recipeconnector.cloud/api/getregionalcenter/-22.503671182039653/17.112660769743826
+* Example response:
+```json
+{
+    "countrySubdivision": "Khomas",
+    "municipality": "Windhoek East",
+    "country": "Namibia"
+}
+```
+
+Description: Send recipe request to grandma.
+* URL: `https://recipenotifier.azurewebsites.net/api/sendrequest`
+* Verb: `GET`
+* Example body:
+```json
+{
+    "countrySubdivision": "Khomas",
+    "municipality": "Windhoek East",
+    "country": "Namibia",
+    "email": "alonso@gmail.com"
+}
+```
+* Result: This will place a message on a queue and then result in the email.
+
 ### Try it yourself
 You can try out a working version deployed to an Azure Static Web App [here](https://www.recipeconnector.cloud).
 
@@ -12,7 +53,7 @@ Here are some screenshots of the completed process.
 ![email](assets/email.png)
 
 ### Resource Setup
-As a Function is making use of a Queue binding, a Storage Account is needed. Also, as of developing this, Static Web Apps only support Http Triggers. Therefore, the Functions need to be hosted in a Function App. To create this, along with the other resources needed, you can use the following AZ CLI commands, replacing values which are relevant for you:
+As a Function is making use of a Queue binding, a Storage Account is used to hold the queue. Also, as of developing this, Static Web Apps only support Http Triggers. Therefore, some of the Functions need to be hosted in a Function App. To create this, along with the other resources needed, you can use the following AZ CLI commands, replacing values which are relevant for you:
 ```
 az maps account create --name <NAME> --resource-group <RESOURCE-GROUP-NAME> --sku S0
 
